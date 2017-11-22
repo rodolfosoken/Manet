@@ -6,10 +6,7 @@
 package manetfxml;
 
 import agentes.AgenteDispositivo;
-import graph.Cell;
-import graph.CellType;
 import graph.Graph;
-import graph.RectangleCell;
 import jade.core.Profile;
 import jade.core.ProfileImpl;
 import jade.wrapper.AgentController;
@@ -26,7 +23,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
 import layout.base.RandomLayout;
 import layout.base.Layout;
-import org.omg.PortableServer.POAManagerPackage.State;
 
 /**
  *
@@ -43,7 +39,7 @@ public class FXMLDocumentController implements Initializable {
     
     @FXML    
     private ScrollPane scrollPane;
-    private Button apagarButton;
+    @FXML    
     private Button buscaButton;
     
     @FXML
@@ -54,8 +50,7 @@ public class FXMLDocumentController implements Initializable {
         Object[] args = new Object[1];
         args[0] = graph;
         addAgent(containerController, "Dispositivo"+qtdDispositivo, AgenteDispositivo.class.getName(), args );
-//        graph.getModel().addCell(cell);
-        graph.update(); 
+        buscaButton.setDisable(false);
     }
     
        
@@ -96,6 +91,7 @@ public class FXMLDocumentController implements Initializable {
             //agentController = cc.createNewAgent(agent, classe, args);
             agentController.add(cc.createNewAgent(agent, classe, args));
             agentController.get(qtdDispositivo).start();
+            agentController.get(qtdDispositivo).activate();
             qtdDispositivo++;
         } catch (StaleProxyException s) {
             s.printStackTrace();

@@ -6,7 +6,7 @@ package agentes;
 
 import graph.RectangleCell;
 import jade.core.Agent;
-import manetfxml.FXMLDocumentController;
+import javafx.application.Platform;
 
 /**
  *
@@ -22,6 +22,18 @@ public class AgenteDispositivo extends Agent{
         this.cell = new RectangleCell(this.getLocalName());
         graph.Graph graph = (graph.Graph)getArguments()[0];
         graph.getModel().addCell(cell);
+        
+        updateView();
+    }
+    
+    private void updateView(){
+         //atualiza a view na thread principal
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                ((graph.Graph)getArguments()[0]).update();
+            }
+        });
     }
   
 
@@ -29,6 +41,7 @@ public class AgenteDispositivo extends Agent{
     protected void takeDown() {
         graph.Graph graph = (graph.Graph)getArguments()[0];
         graph.getModel().removeCell(this.cell);
+        updateView();
         super.takeDown(); //To change body of generated methods, choose Tools | Templates.
     }
 

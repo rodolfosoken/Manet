@@ -9,8 +9,7 @@
     <children>
         <Button fx:id="dispositivoButton" layoutX="14.0" layoutY="30.0" onAction="#criarDispositivo" text="Criar Dispositivo" />
         <Label fx:id="label" layoutX="126" layoutY="120" minHeight="16" minWidth="69" />
-      <Button fx:id="buscaButton" disable="true" layoutX="233.0" layoutY="30.0" mnemonicParsing="false" text="Iniciar Busca" />
-      <Button fx:id="apagarButton" disable="true" layoutX="417.0" layoutY="30.0" mnemonicParsing="false" text="Apagar Dispositivo" />
+      <Button fx:id="buscaButton" disable="true" layoutX="630.0" layoutY="30.0" mnemonicParsing="false" text="Iniciar Busca" />
       <ScrollPane fx:id="scrollPane" layoutX="-22.0" layoutY="82.0" prefHeight="514.0" prefWidth="748.0">
         <content>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0" />

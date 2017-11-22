@@ -6,6 +6,7 @@ package graph;
  * and open the template in the editor.
  */
 
+import javafx.scene.control.Label;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
@@ -15,11 +16,13 @@ public class RectangleCell extends Cell {
         super( id);
 
         Rectangle view = new Rectangle( 50,50);
+        Label label = new Label(id);
 
         view.setStroke(Color.DODGERBLUE);
         view.setFill(Color.DODGERBLUE);
 
         setView( view);
+        setView(label);
 
     }
 
