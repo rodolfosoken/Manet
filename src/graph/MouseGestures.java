@@ -20,8 +20,6 @@ public class MouseGestures {
     }
 
     public void makeDraggable( final Node node) {
-
-
         node.setOnMousePressed(onMousePressedEventHandler);
         node.setOnMouseDragged(onMouseDraggedEventHandler);
         node.setOnMouseReleased(onMouseReleasedEventHandler);
@@ -36,13 +34,15 @@ public class MouseGestures {
             Node node = (Node) event.getSource();
 
             double scale = graph.getScale();
-            if(graph.getCellSelected()!=null){
-                graph.getCellSelected().setStyle("-fx-background-color: white");
-                graph.setCellSelected((Cell)node);
-                graph.getCellSelected().setStyle("-fx-background-color: red");
-            }else{
-                graph.setCellSelected((Cell)node);
-                graph.getCellSelected().setStyle("-fx-background-color: red");
+            if(node instanceof RectangleCell){
+                if(graph.getCellSelected()!=null){
+                    graph.getCellSelected().setStyle("-fx-background-color: white");
+                    graph.setCellSelected((Cell)node);
+                    graph.getCellSelected().setStyle("-fx-background-color: red");
+                }else{
+                    graph.setCellSelected((Cell)node);
+                    graph.getCellSelected().setStyle("-fx-background-color: red");
+                }
             }
             dragContext.x = node.getBoundsInParent().getMinX() * scale - event.getScreenX();
             dragContext.y = node.getBoundsInParent().getMinY()  * scale - event.getScreenY();

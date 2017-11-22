@@ -63,23 +63,26 @@ public class Graph {
     }
 
     public void updateNode(Cell cell) {
-        List<Cell> allCells = model.getAllCells();
+        if(cell instanceof RectangleCell){
+            List<Cell> allCells = model.getAllCells();
 
-        for(Cell cellProx : allCells){
-            if(!cell.equals(cellProx) && Math.abs(cellProx.getPosX() - cell.getPosX()) < getAlcance() && Math.abs(cellProx.getPosY()- cell.getPosY()) < getAlcance()){
-                cell.addCellChild(cellProx);
-                cellProx.addCellChild(cell);
-                model.addEdge(cell.getCellId(), cellProx.getCellId());
-            }else{
-                cell.removeCellChild(cellProx);
-                cellProx.removeCellChild(cell);
-                model.removeEdge(cell.getCellId(), cellProx.getCellId());
-                model.removeEdge(cellProx.getCellId(), cell.getCellId());
+            for(Cell cellProx : allCells){
+                if(cellProx instanceof RectangleCell){
+                    if(!cell.equals(cellProx) && Math.abs(cellProx.getPosX() - cell.getPosX()) < getAlcance() && Math.abs(cellProx.getPosY()- cell.getPosY()) < getAlcance()){
+                        cell.addCellChild(cellProx);
+                        cellProx.addCellChild(cell);
+                        model.addEdge(cell.getCellId(), cellProx.getCellId());
+                    }else{
+                        cell.removeCellChild(cellProx);
+                        cellProx.removeCellChild(cell);
+                        model.removeEdge(cell.getCellId(), cellProx.getCellId());
+                        model.removeEdge(cellProx.getCellId(), cell.getCellId());
+                    }
+                }
             }
+
+            update();        
         }
-        
-        update();        
-       
     }
 
     public void update() {
@@ -95,6 +98,7 @@ public class Graph {
         // enable dragging of cells
         for (Cell cell : model.getAddedCells()) {
             mouseGestures.makeDraggable(cell);
+            cell.relocate(cell.getPosX(), cell.getPosY());
         }
 
         // every cell must have a parent, if it doesn't, then the graphParent is

@@ -57,7 +57,6 @@ public class FXMLDocumentController implements Initializable {
         //SINTAXE: addAgent(container, nome_do_agente, classe, parametros de inicializacao)
         addAgent(containerController, "Dispositivo"+qtdDispositivo, AgenteDispositivo.class.getName(), args );
         qtdDispositivo++;
-        buscaButton.setDisable(false);
         layout.execute();
     }
     
@@ -123,6 +122,7 @@ public class FXMLDocumentController implements Initializable {
         public void handle(MouseEvent event) {
             if(event.isPrimaryButtonDown() && graph.getCellSelected()!=null){
                 idDestino.setDisable(false);
+                buscaButton.setDisable(false);
             }
         }
     };

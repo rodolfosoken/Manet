@@ -24,10 +24,10 @@ public class AgenteDispositivo extends Agent{
     @Override
     protected void setup() {
         tabela = new HashMap<>();
-        this.cell = new RectangleCell(this.getLocalName());
-        cell.setAgente(this);
+        this.setCell(new RectangleCell(this.getLocalName()));
+        getCell().setAgente(this);
         this.graph = (graph.Graph)getArguments()[0];
-        graph.getModel().addCell(cell);
+        getGraph().getModel().addCell(getCell());
         
         updateView();
         
@@ -35,20 +35,16 @@ public class AgenteDispositivo extends Agent{
 
     @Override
     public void doWake() {
-        addBehaviour(new ComportamentoIniciaBusca(this,graph.getCellSelected().getCellId(),(String)getArguments()[2]));
+        addBehaviour(new ComportamentoIniciaBusca(this,getGraph().getCellSelected().getCellId(),(String)getArguments()[2]));
         super.doWake(); //To change body of generated methods, choose Tools | Templates.
     }
 
-
-
-    
-    
     private void updateView(){
          //atualiza a view na thread principal
         Platform.runLater(new Runnable() {
             @Override
             public void run() {
-                graph.update();
+                getGraph().update();
             }
         });
     }
@@ -56,7 +52,7 @@ public class AgenteDispositivo extends Agent{
 
     @Override
     protected void takeDown() {
-        graph.getModel().removeCell(this.cell);
+        getGraph().getModel().removeCell(this.getCell());
         updateView();
         super.takeDown(); //To change body of generated methods, choose Tools | Templates.
     }
@@ -71,5 +67,26 @@ public class AgenteDispositivo extends Agent{
             this.pheromone=(pheromone);
        }
   }
+
+    /**
+     * @return the graph
+     */
+    public Graph getGraph() {
+        return graph;
+    }
+
+    /**
+     * @param cell the cell to set
+     */
+    public void setCell(RectangleCell cell) {
+        this.cell = cell;
+    }
+
+    /**
+     * @return the cell
+     */
+    public RectangleCell getCell() {
+        return cell;
+    }
     
 }
