@@ -20,6 +20,8 @@ public class Graph {
     private ZoomableScrollPane scrollPane;
 
     MouseGestures mouseGestures;
+    
+    private Cell cellSelected;
 
     /**
      * the pane wrapper is necessary or else the scrollpane would always align
@@ -38,8 +40,9 @@ public class Graph {
 
         canvas.getChildren().add(cellLayer);
 
+        cellSelected = null;
         mouseGestures = new MouseGestures(this);
-
+        
         scrollPane = new ZoomableScrollPane(canvas);
 
         scrollPane.setFitToWidth(true);
@@ -122,5 +125,19 @@ public class Graph {
      */
     public void setAlcance(double alcance) {
         this.alcance = alcance;
+    }
+
+    /**
+     * @return the cellSelected
+     */
+    public Cell getCellSelected() {
+        return cellSelected;
+    }
+
+    /**
+     * @param cellSelected the cellSelected to set
+     */
+    public void setCellSelected(Cell cellSelected) {
+        this.cellSelected = cellSelected;
     }
 }

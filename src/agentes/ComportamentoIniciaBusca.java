@@ -5,10 +5,27 @@
  */
 package agentes;
 
+import jade.core.Agent;
+import jade.core.behaviours.OneShotBehaviour;
+
 /**
  *
  * @author Rodolfo
  */
-public class ComportamentoIniciaBusca {
+public class ComportamentoIniciaBusca extends OneShotBehaviour{
+    
+    private String sourceID;
+    private String targetID;
+
+    public ComportamentoIniciaBusca(Agent a, String sourceID, String targetID) {
+        super(a);
+    }
+    
+    @Override
+    public void action() {
+        System.out.println("Action do Comportamento busca");
+        
+       
+    }
     
 }

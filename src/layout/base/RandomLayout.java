@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Random;
 import graph.Cell;
 import graph.Graph;
+import javafx.application.Platform;
 
 
 
@@ -36,6 +37,14 @@ public class RandomLayout extends Layout {
             cell.setPosY(y);
 
             cell.relocate(x, y);
+            
+            //atualiza a view na thread principal
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                graph.updateNode(cell);
+            }
+        });
 
         }
 

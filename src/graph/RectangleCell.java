@@ -11,11 +11,13 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
 public class RectangleCell extends Cell {
+    
+    private agentes.AgenteDispositivo agente;
 
     public RectangleCell( String id) {
         super( id);
 
-        Rectangle view = new Rectangle( 50,50);
+        Rectangle view = new Rectangle( 63,60);
         Label label = new Label(id);
 
         view.setStroke(Color.DODGERBLUE);
@@ -24,6 +26,20 @@ public class RectangleCell extends Cell {
         setView( view);
         setView(label);
 
+    }
+
+    /**
+     * @return the agente
+     */
+    public agentes.AgenteDispositivo getAgente() {
+        return agente;
+    }
+
+    /**
+     * @param agente the agente to set
+     */
+    public void setAgente(agentes.AgenteDispositivo agente) {
+        this.agente = agente;
     }
 
 }

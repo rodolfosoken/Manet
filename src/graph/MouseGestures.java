@@ -36,7 +36,14 @@ public class MouseGestures {
             Node node = (Node) event.getSource();
 
             double scale = graph.getScale();
-
+            if(graph.getCellSelected()!=null){
+                graph.getCellSelected().setStyle("-fx-background-color: white");
+                graph.setCellSelected((Cell)node);
+                graph.getCellSelected().setStyle("-fx-background-color: red");
+            }else{
+                graph.setCellSelected((Cell)node);
+                graph.getCellSelected().setStyle("-fx-background-color: red");
+            }
             dragContext.x = node.getBoundsInParent().getMinX() * scale - event.getScreenX();
             dragContext.y = node.getBoundsInParent().getMinY()  * scale - event.getScreenY();
 

@@ -7,20 +7,25 @@ package manetfxml;
 
 import agentes.AgenteDispositivo;
 import graph.Graph;
+import graph.RectangleCell;
 import jade.core.Profile;
 import jade.core.ProfileImpl;
 import jade.wrapper.AgentController;
 import jade.wrapper.ContainerController;
+import jade.wrapper.ControllerException;
 import jade.wrapper.StaleProxyException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.TextField;
+import javafx.scene.input.MouseEvent;
 import layout.base.RandomLayout;
 import layout.base.Layout;
 
@@ -36,24 +41,36 @@ public class FXMLDocumentController implements Initializable {
     
     private static Graph graph;
     private Layout layout;
+    private Object[] args;
     
     @FXML    
     private ScrollPane scrollPane;
     @FXML    
     private Button buscaButton;
+    @FXML
+    private TextField idDestino;
     
     @FXML
     private void criarDispositivo(ActionEvent event) {
         System.out.println("Dispositivo"+qtdDispositivo+" criado!");
         //adicionando agente
         //SINTAXE: addAgent(container, nome_do_agente, classe, parametros de inicializacao)
-        Object[] args = new Object[1];
-        args[0] = graph;
         addAgent(containerController, "Dispositivo"+qtdDispositivo, AgenteDispositivo.class.getName(), args );
         qtdDispositivo++;
         buscaButton.setDisable(false);
+        layout.execute();
     }
     
+    @FXML
+    private void inciarBusca(ActionEvent e){
+        System.out.println("iniciarBusca");
+        args[2] = idDestino.getText();
+        try {
+            containerController.getAgent(graph.getCellSelected().getCellId()).activate();
+        } catch (ControllerException ex) {
+            Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
        
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -65,7 +82,12 @@ public class FXMLDocumentController implements Initializable {
         graph = new Graph();
         scrollPane.setContent(graph.getScrollPane());
         layout = new RandomLayout(graph);
-        layout.execute();         
+        
+        graph.getScrollPane().setOnMousePressed(clickMouse);
+        
+        args = new Object[3];
+        args[0] = graph;
+        args[1] = containerController;
     }
     
     public static void close(){
@@ -96,12 +118,14 @@ public class FXMLDocumentController implements Initializable {
         }
     }
 
-    /**
-     * @return the qtdFant
-     */
-    public static int getQtdDispositivo() {
-        return qtdDispositivo;
-    }
+    EventHandler<MouseEvent> clickMouse = new EventHandler<MouseEvent>() {
+        @Override
+        public void handle(MouseEvent event) {
+            if(event.isPrimaryButtonDown() && graph.getCellSelected()!=null){
+                idDestino.setDisable(false);
+            }
+        }
+    };
     
    
 
