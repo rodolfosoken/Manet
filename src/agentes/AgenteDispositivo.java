@@ -28,7 +28,7 @@ public class AgenteDispositivo extends Agent{
     @Override
     protected void takeDown() {
         graph.Graph graph = (graph.Graph)getArguments()[0];
-        graph.getModel().getRemovedCells().add(this.cell);
+        graph.getModel().removeCell(this.cell);
         super.takeDown(); //To change body of generated methods, choose Tools | Templates.
     }
 

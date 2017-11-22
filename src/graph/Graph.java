@@ -60,7 +60,7 @@ public class Graph {
     }
 
     public void updateNode(Cell cell) {
-         List<Cell> allCells = model.getAllCells();
+        List<Cell> allCells = model.getAllCells();
 
         for(Cell cellProx : allCells){
             if(!cell.equals(cellProx) && Math.abs(cellProx.getPosX() - cell.getPosX()) < getAlcance() && Math.abs(cellProx.getPosY()- cell.getPosY()) < getAlcance()){

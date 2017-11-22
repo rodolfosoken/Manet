@@ -14,13 +14,13 @@ public class Model {
 
     Cell graphParent;
 
-    List<Cell> allCells;
-    List<Cell> addedCells;
-    List<Cell> removedCells;
+    private List<Cell> allCells;
+    private List<Cell> addedCells;
+    private List<Cell> removedCells;
 
-    List<Edge> allEdges;
-    List<Edge> addedEdges;
-    List<Edge> removedEdges;
+    private List<Edge> allEdges;
+    private List<Edge> addedEdges;
+    private List<Edge> removedEdges;
 
     Map<String,Cell> cellMap; // <id,cell>
 
@@ -53,10 +53,6 @@ public class Model {
 
     public List<Cell> getAddedCells() {
         return addedCells;
-    }
-
-    public List<Cell> getRemovedCells() {
-        return removedCells;
     }
 
     public List<Cell> getAllCells() {
@@ -123,6 +119,14 @@ public class Model {
         }
     }
     
+    public void removeCell(Cell cell){
+        for(Cell cellProx : allCells){
+            removeEdge(cell.getCellId(),cellProx.getCellId());
+            removeEdge(cellProx.getCellId(),cell.getCellId());     
+        }
+        getRemovedCells().add(cell);
+    }
+    
     /**
      * Attach all cells which don't have a parent to graphParent 
      * @param cellList
@@ -152,10 +156,10 @@ public class Model {
 
         // cells
         allCells.addAll( addedCells);
-        allCells.removeAll( removedCells);
+        allCells.removeAll(getRemovedCells());
 
         addedCells.clear();
-        removedCells.clear();
+        getRemovedCells().clear();
 
         // edges
         allEdges.addAll( addedEdges);
@@ -164,5 +168,12 @@ public class Model {
         addedEdges.clear();
         removedEdges.clear();
 
+    }
+
+    /**
+     * @return the removedCells
+     */
+    public List<Cell> getRemovedCells() {
+        return removedCells;
     }
 }
