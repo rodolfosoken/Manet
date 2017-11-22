@@ -114,9 +114,9 @@ public class Model {
         Cell targetCell = cellMap.get(targetId);
 
         Edge edge = new Edge( sourceCell, targetCell);
-        if (allEdges.contains(edge)){
-            removedEdges.add(edge);
-        }
+     
+        removedEdges.add(edge);
+        
     }
     
     public void removeCell(Cell cell){

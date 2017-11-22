@@ -31,7 +31,7 @@ import layout.base.Layout;
 public class FXMLDocumentController implements Initializable {
     
     private static ContainerController containerController;
-    private static List <AgentController> agentController;
+    private static AgentController agentController;
     private static int qtdDispositivo = 0;
     
     private static Graph graph;
@@ -44,12 +44,13 @@ public class FXMLDocumentController implements Initializable {
     
     @FXML
     private void criarDispositivo(ActionEvent event) {
-        System.out.println("Agente"+qtdDispositivo+" criado!");
+        System.out.println("Dispositivo"+qtdDispositivo+" criado!");
         //adicionando agente
         //SINTAXE: addAgent(container, nome_do_agente, classe, parametros de inicializacao)
         Object[] args = new Object[1];
         args[0] = graph;
         addAgent(containerController, "Dispositivo"+qtdDispositivo, AgenteDispositivo.class.getName(), args );
+        qtdDispositivo++;
         buscaButton.setDisable(false);
     }
     
@@ -59,7 +60,6 @@ public class FXMLDocumentController implements Initializable {
         // TODO
          //iniciando main container
         startMainContainer("127.0.0.1", Profile.LOCAL_PORT, "MANET");
-        agentController = new ArrayList<>();
         //adicionando agente RMA
         addAgent(containerController, "rma", jade.tools.rma.rma.class.getName(), null);     
         graph = new Graph();
@@ -89,10 +89,8 @@ public class FXMLDocumentController implements Initializable {
     private static void addAgent(ContainerController cc, String agent, String classe, Object[] args) {
         try {
             //agentController = cc.createNewAgent(agent, classe, args);
-            agentController.add(cc.createNewAgent(agent, classe, args));
-            agentController.get(qtdDispositivo).start();
-            agentController.get(qtdDispositivo).activate();
-            qtdDispositivo++;
+            agentController = cc.createNewAgent(agent, classe, args);
+            agentController.start();
         } catch (StaleProxyException s) {
             s.printStackTrace();
         }

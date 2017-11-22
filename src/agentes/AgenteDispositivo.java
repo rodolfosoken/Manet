@@ -5,6 +5,7 @@ e consequentemente definem os caminhos aos quais as formigaas irão percorrer
 package agentes;
 
 import graph.RectangleCell;
+import graph.Graph;
 import jade.core.Agent;
 import javafx.application.Platform;
 
@@ -15,12 +16,12 @@ import javafx.application.Platform;
 public class AgenteDispositivo extends Agent{
     
     private RectangleCell cell;
-    private double pheromone;
+    private Graph graph;
 
     @Override
     protected void setup() {
         this.cell = new RectangleCell(this.getLocalName());
-        graph.Graph graph = (graph.Graph)getArguments()[0];
+        this.graph = (graph.Graph)getArguments()[0];
         graph.getModel().addCell(cell);
         
         updateView();
@@ -31,7 +32,7 @@ public class AgenteDispositivo extends Agent{
         Platform.runLater(new Runnable() {
             @Override
             public void run() {
-                ((graph.Graph)getArguments()[0]).update();
+                graph.update();
             }
         });
     }
@@ -39,7 +40,6 @@ public class AgenteDispositivo extends Agent{
 
     @Override
     protected void takeDown() {
-        graph.Graph graph = (graph.Graph)getArguments()[0];
         graph.getModel().removeCell(this.cell);
         updateView();
         super.takeDown(); //To change body of generated methods, choose Tools | Templates.

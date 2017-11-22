@@ -10,6 +10,7 @@ import javafx.scene.shape.Line;
 
 public class Edge extends Group {
 
+    private double pheromone;
     protected Cell source;
     protected Cell target;
 
@@ -46,10 +47,24 @@ public class Edge extends Group {
     @Override
     public boolean equals(Object obj) {
         if(obj instanceof Edge){
-        Edge edge = (Edge) obj;
-       return source.getCellId().equals(edge.getSource().getCellId())&& target.getCellId().equals(edge.getTarget().getCellId());
+            Edge edge = (Edge) obj;
+            return source.getCellId().equals(edge.getSource().getCellId())&& target.getCellId().equals(edge.getTarget().getCellId());
         }else return false;
      }
+
+    /**
+     * @return the pheromone
+     */
+    public double getPheromone() {
+        return pheromone;
+    }
+
+    /**
+     * @param pheromone the pheromone to set
+     */
+    public void setPheromone(double pheromone) {
+        this.pheromone = pheromone;
+    }
     
     
 
