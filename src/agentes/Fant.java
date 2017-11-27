@@ -26,8 +26,14 @@ public class Fant extends Agent{
         this.graph = (Graph) getArguments()[0];
         this.cellSource = (RectangleCell)getArguments()[1];
         cell.setAgente(this);
-        cell.setPosX(80+cellSource.getPosX()); //posiciona fant perto do agente dispositivo
-        cell.setPosY(cellSource.getPosY());
+        if(getArguments()[2]==null && getArguments()[3]==null){
+            cell.setPosX(80+cellSource.getPosX()); //posiciona fant perto do agente dispositivo
+            cell.setPosY(cellSource.getPosY());
+        }else{
+            System.out.println("args setup: " +getArguments()[2]+" , "+getArguments()[3]);
+            cell.setPosX((double)getArguments()[2]);
+            cell.setPosY((double)getArguments()[3]);
+        }
         graph.getModel().addCell(cell);
         updateView();
     }

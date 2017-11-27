@@ -91,11 +91,11 @@ public class Model {
     }
 
     public void addCell( Cell cell) {
+        if(!addedCells.contains(cell)){
+            addedCells.add(cell);
 
-        addedCells.add(cell);
-
-        cellMap.put( cell.getCellId(), cell);
-
+            cellMap.put( cell.getCellId(), cell);
+        }
     }
 
     public void addEdge( String sourceId, String targetId) {
