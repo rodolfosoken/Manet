@@ -44,6 +44,10 @@ public class Cell extends Pane {
     public void removeCellChild(Cell cell) {
         children.remove(cell);
     }
+    
+    public void removeCellParent(Cell cell){
+        parents.remove(cell);
+    }
 
     public void setView(Node view) {
 

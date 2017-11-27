@@ -16,20 +16,19 @@ import javafx.application.Platform;
  * @author Rodolfo
  */
 public class Fant extends Agent{
-    private TriangleCell cell;
+    private TriangleCell cell; // agente fant
     private Graph graph;
-    private RectangleCell cellSource;
+    private RectangleCell cellSource;//agente dispositivo que criou o fant
     
     @Override
     protected void setup(){
         this.cell = new TriangleCell(this.getLocalName());
+        this.graph = (Graph) getArguments()[0];
         this.cellSource = (RectangleCell)getArguments()[1];
         cell.setAgente(this);
-        cell.setPosX(80+cellSource.getPosX());
+        cell.setPosX(80+cellSource.getPosX()); //posiciona fant perto do agente dispositivo
         cell.setPosY(cellSource.getPosY());
-        this.graph = (Graph) getArguments()[0];
         graph.getModel().addCell(cell);
-        
         updateView();
     }
     
@@ -49,7 +48,6 @@ public class Fant extends Agent{
         updateView();
         super.takeDown(); //To change body of generated methods, choose Tools | Templates.
     }
-    
-    
-    
+  
+   
 }

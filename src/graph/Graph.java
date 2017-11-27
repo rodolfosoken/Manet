@@ -22,6 +22,8 @@ public class Graph {
     MouseGestures mouseGestures;
     
     private Cell cellSelected;
+    
+    private static int qtdFant;
 
     /**
      * the pane wrapper is necessary or else the scrollpane would always align
@@ -47,6 +49,7 @@ public class Graph {
 
         scrollPane.setFitToWidth(true);
         scrollPane.setFitToHeight(true);
+        qtdFant = 0;
 
     }
 
@@ -69,12 +72,9 @@ public class Graph {
             for(Cell cellProx : allCells){
                 if(cellProx instanceof RectangleCell){
                     if(!cell.equals(cellProx) && Math.abs(cellProx.getPosX() - cell.getPosX()) < getAlcance() && Math.abs(cellProx.getPosY()- cell.getPosY()) < getAlcance()){
-                        cell.addCellChild(cellProx);
-                        cellProx.addCellChild(cell);
+                        //System.out.println("Criando edge para: " + cell.getCellId()+ ", " + cellProx.getCellId());
                         model.addEdge(cell.getCellId(), cellProx.getCellId());
                     }else{
-                        cell.removeCellChild(cellProx);
-                        cellProx.removeCellChild(cell);
                         model.removeEdge(cell.getCellId(), cellProx.getCellId());
                         model.removeEdge(cellProx.getCellId(), cell.getCellId());
                     }
@@ -144,4 +144,16 @@ public class Graph {
     public void setCellSelected(Cell cellSelected) {
         this.cellSelected = cellSelected;
     }
+    
+    public static void incrQtdFant(){
+        qtdFant++;
+    }
+
+    /**
+     * @return the qtdFant
+     */
+    public static int getQtdFant() {
+        return qtdFant;
+    }
+    
 }

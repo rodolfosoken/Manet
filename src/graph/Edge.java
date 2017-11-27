@@ -11,8 +11,8 @@ import javafx.scene.shape.Line;
 public class Edge extends Group {
 
     private double pheromone;
-    protected Cell source;
-    protected Cell target;
+    private Cell source;
+    private Cell target;
 
     Line line;
 
@@ -23,6 +23,7 @@ public class Edge extends Group {
 
         source.addCellChild(target);
         target.addCellParent(source);
+        
 
         line = new Line();
 
@@ -34,6 +35,11 @@ public class Edge extends Group {
 
         getChildren().add( line);
 
+    }
+    
+    public void removeChildParent(){
+        source.removeCellChild(target);
+        target.removeCellParent(source);
     }
 
     public Cell getSource() {
@@ -48,7 +54,7 @@ public class Edge extends Group {
     public boolean equals(Object obj) {
         if(obj instanceof Edge){
             Edge edge = (Edge) obj;
-            return source.getCellId().equals(edge.getSource().getCellId())&& target.getCellId().equals(edge.getTarget().getCellId());
+            return getSource().getCellId().equals(edge.getSource().getCellId())&& getTarget().getCellId().equals(edge.getTarget().getCellId());
         }else return false;
      }
 

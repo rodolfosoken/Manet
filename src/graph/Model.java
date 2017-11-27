@@ -99,22 +99,27 @@ public class Model {
     }
 
     public void addEdge( String sourceId, String targetId) {
-
+        
         Cell sourceCell = cellMap.get( sourceId);
         Cell targetCell = cellMap.get( targetId);
 
         Edge edge = new Edge( sourceCell, targetCell);
-
-        addedEdges.add( edge);
+        if(!allEdges.contains(edge)){
+            addedEdges.add( edge);
+        }else{
+            edge.removeChildParent();
+        }
 
     }
     
     public void removeEdge(String sourceId, String targetId){
         Cell sourceCell = cellMap.get(sourceId);
         Cell targetCell = cellMap.get(targetId);
-
+        
+        sourceCell.children.remove(targetCell);
+        targetCell.parents.remove(sourceCell);
         Edge edge = new Edge( sourceCell, targetCell);
-     
+        edge.removeChildParent();
         removedEdges.add(edge);
         
     }

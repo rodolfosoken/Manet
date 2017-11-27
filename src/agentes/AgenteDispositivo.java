@@ -20,6 +20,7 @@ public class AgenteDispositivo extends Agent{
     private RectangleCell cell;
     private Graph graph;
     private HashMap<List<String>,Registro> tabela;
+    
 
     @Override
     protected void setup() {
@@ -28,6 +29,7 @@ public class AgenteDispositivo extends Agent{
         getCell().setAgente(this);
         this.graph = (graph.Graph)getArguments()[0];
         getGraph().getModel().addCell(getCell());
+        
         
         updateView();
         
@@ -88,5 +90,6 @@ public class AgenteDispositivo extends Agent{
     public RectangleCell getCell() {
         return cell;
     }
+
     
 }
