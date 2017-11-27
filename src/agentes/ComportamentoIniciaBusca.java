@@ -41,8 +41,8 @@ public class ComportamentoIniciaBusca extends OneShotBehaviour{
             args[3] = children.getPosY();
             addAgent(myAgent.getContainerController(), "FANT"+graph.Graph.getQtdFant(), Fant.class.getName(), args );
             graph.Graph.incrQtdFant();
-            
         }
+        
     }
     
     private void addAgent(ContainerController cc, String agent, String classe, Object[] args) {

@@ -104,7 +104,7 @@ public class Model {
         Cell targetCell = cellMap.get( targetId);
 
         Edge edge = new Edge( sourceCell, targetCell);
-        if(!allEdges.contains(edge)){
+        if(!addedEdges.contains(edge)&&!allEdges.contains(edge)){
             addedEdges.add( edge);
         }else{
             edge.removeChildParent();

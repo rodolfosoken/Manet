@@ -23,7 +23,10 @@ public class Edge extends Group {
 
         source.addCellChild(target);
         target.addCellParent(source);
-        
+        //grafo nao direcionado
+        target.addCellChild(source);
+        source.addCellParent(target);
+       
 
         line = new Line();
 
@@ -39,7 +42,10 @@ public class Edge extends Group {
     
     public void removeChildParent(){
         source.removeCellChild(target);
+        source.removeCellParent(target);
         target.removeCellParent(source);
+        target.removeCellChild(source);
+        
     }
 
     public Cell getSource() {

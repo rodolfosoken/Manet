@@ -1,1 +1,1 @@
-http://AtivBook6:7778/acc
+http://172.19.108.50:7778/acc
