@@ -91,7 +91,7 @@ public class Model {
     }
 
     public void addCell( Cell cell) {
-        if(!addedCells.contains(cell)){
+        if(!addedCells.contains(cell) && !allCells.contains(cell)){
             addedCells.add(cell);
 
             cellMap.put( cell.getCellId(), cell);
