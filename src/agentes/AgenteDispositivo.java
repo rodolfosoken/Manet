@@ -29,14 +29,13 @@ public class AgenteDispositivo extends Agent{
         getCell().setAgente(this);
         this.graph = (graph.Graph)getArguments()[0];
         getGraph().getModel().addCell(getCell());
-        
-        
+            
         updateView();
         
     }
 
     @Override
-    public void doWake() {
+    public void doWake(Object []args) {
         addBehaviour(new ComportamentoIniciaBusca(this,getGraph().getCellSelected().getCellId(),(String)getArguments()[2]));
         super.doWake(); //To change body of generated methods, choose Tools | Templates.
     }

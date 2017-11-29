@@ -13,14 +13,15 @@ import javafx.scene.shape.Polygon;
 public class TriangleCell extends Cell {
     private Fant agente;
 
-    public TriangleCell( String id) {
-        super( id);
+    //recebe tres strings [idAgente,idSource, idTarget]
+    public TriangleCell( String[] id) {
+        super( id[0]);
 
         double width = 50;
         double height = 50;
 
         Polygon view = new Polygon( width / 2, 0, width, height, 0, height);
-        Label label = new Label(id);
+        Label label = new Label(id[0]);
         
         view.setStroke(Color.RED);
         view.setFill(Color.RED);

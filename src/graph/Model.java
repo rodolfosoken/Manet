@@ -71,24 +71,6 @@ public class Model {
         return allEdges;
     }
 
-    public void addCell(String id, CellType type) {
-
-        switch (type) {
-
-        case RECTANGLE:
-            RectangleCell rectangleCell = new RectangleCell(id);
-            addCell(rectangleCell);
-            break;
-
-        case TRIANGLE:
-            TriangleCell circleCell = new TriangleCell(id);
-            addCell(circleCell);
-            break;
-
-        default:
-            throw new UnsupportedOperationException("Unsupported type: " + type);
-        }
-    }
 
     public void addCell( Cell cell) {
         if(!addedCells.contains(cell) && !allCells.contains(cell)){

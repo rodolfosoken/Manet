@@ -35,10 +35,14 @@ public class ComportamentoIniciaBusca extends OneShotBehaviour{
         for(Cell children : ((AgenteDispositivo)myAgent).getCell().getCellChildren()){
             //System.out.println("Coord: "+children.getPosX()+" , "+children.getPosY());
             args = new Object[4];
+            //grafo
             args[0] = ((AgenteDispositivo)myAgent).getGraph();
-            args[1] = ((AgenteDispositivo)myAgent).getCell();
-            args[2] = children.getPosX();
-            args[3] = children.getPosY();
+            //id celula de origem (o primeiro agente que iniciou a busca e nao o anterior)
+            args[1] = sourceID;
+            //ID da celula de destino
+            args[2] = targetID;
+            // proxima celula a ser visitada
+            args[3] = children;
             addAgent(myAgent.getContainerController(), "FANT"+graph.Graph.getQtdFant(), Fant.class.getName(), args );
             graph.Graph.incrQtdFant();
         }

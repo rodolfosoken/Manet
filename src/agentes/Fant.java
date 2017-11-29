@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package agentes;
 
 import graph.Graph;
@@ -16,44 +11,98 @@ import javafx.application.Platform;
  * @author Rodolfo
  */
 public class Fant extends Agent{
-    private TriangleCell cell; // agente fant
     private Graph graph;
-    private RectangleCell cellSource;//agente dispositivo que criou o fant
+    private TriangleCell cellFant;      // Agente fant
+    private RectangleCell cellNext;     // Proxima celula a ser visitada
+    private String idSource;     // Agente dispositivo que criou o fant
+    private String idTarget ;           // Id da celula de destino
     
     @Override
     protected void setup(){
-        this.cell = new TriangleCell(this.getLocalName());
+                
+        this.cellFant = new TriangleCell(new String[]{this.getLocalName(),idSource,});
         this.graph = (Graph) getArguments()[0];
-        this.cellSource = (RectangleCell)getArguments()[1];
-        cell.setAgente(this);
-        if(getArguments()[2]==null && getArguments()[3]==null){
-            cell.setPosX(80+cellSource.getPosX()); //posiciona fant perto do agente dispositivo
-            cell.setPosY(cellSource.getPosY());
-        }else{
-            System.out.println("args setup: " +getArguments()[2]+" , "+getArguments()[3]);
-            cell.setPosX((double)getArguments()[2]);
-            cell.setPosY((double)getArguments()[3]);
+        this.idSource = (String)getArguments()[1];
+        this.idTarget = (String) getArguments()[2];
+        this.cellNext = (RectangleCell) getArguments()[3];
+        cellFant.setAgente(this);
+        
+        //faz o posicionamento gráfico do agente
+        if(cellNext != null){
+            //posiciona fant na celula em que está visitando
+            cellFant.setPosX(cellNext.getPosX());
+            cellFant.setPosY(cellNext.getPosY());
         }
-        graph.getModel().addCell(cell);
+        
+        //adiciona a celula ao modelo grafico
+        graph.getModel().addCell(cellFant);
         updateView();
-    }
+        
+        addBehaviour(new PassarInfos(this));
     
+    }
+        
     public void updateView(){
          //atualiza a view na thread principal
         Platform.runLater(new Runnable() {
             @Override
             public void run() {
-                graph.update();
+                getGraph().update();
             }
         });
     }
 
     @Override
     protected void takeDown() {
-        graph.getModel().removeCell(this.cell);
+        graph.getModel().removeCell(this.cellFant);
         updateView();
         super.takeDown(); //To change body of generated methods, choose Tools | Templates.
     }
+
+    /**
+     * @return the graph
+     */
+    public Graph getGraph() {
+        return graph;
+    }
+
+    /**
+     * @return the cellFant
+     */
+    public TriangleCell getCellFant() {
+        return cellFant;
+    }
+
+    /**
+     * @return the cellNext
+     */
+    public RectangleCell getCellNext() {
+        return cellNext;
+    }
+
+    /**
+     * @return the idSource
+     */
+    public String getIdSource() {
+        return idSource;
+    }
+
+    /**
+     * @return the idTarget
+     */
+    public String getIdTarget() {
+        return idTarget;
+    }
+
+    @Override
+    public boolean equals(Object other){
+        if (other == null) return false;
+        if (other == this) return true;
+        if (!(other instanceof Fant))return false;
+        if (this.idSource.equals(((Fant)other).getIdSource()) && 
+                this.idTarget.equals(((Fant)other).getIdTarget())) return true;
+        else return false;
+    }   
   
    
 }

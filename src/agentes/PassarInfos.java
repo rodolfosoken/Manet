@@ -12,15 +12,20 @@ import jade.core.behaviours.OneShotBehaviour;
  *
  * @author rodolfo.soken
  */
-public class ComportamentoAndar extends OneShotBehaviour {
+public class PassarInfos extends OneShotBehaviour {
     
-    public ComportamentoAndar(Agent a){
+    private Fant agente;
+    
+    public PassarInfos(Agent a){
+        super(a);
+        this.agente = (Fant) a;
         
     }
 
     @Override
     public void action() {
-        
+        //passar parametros do agente fant para o proximo dispositivo
+        agente.getCellNext().getAgente().doWake();
     }
     
 }
