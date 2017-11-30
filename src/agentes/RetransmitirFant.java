@@ -6,7 +6,6 @@
 package agentes;
 
 import graph.Cell;
-import graph.RectangleCell;
 import jade.core.Agent;
 import jade.core.behaviours.OneShotBehaviour;
 import jade.wrapper.AgentController;
@@ -15,43 +14,40 @@ import jade.wrapper.StaleProxyException;
 
 /**
  *
- * @author Rodolfo
+ * @author rodolfo.soken
  */
-public class ComportamentoIniciaBusca extends OneShotBehaviour{
-        
-    private String sourceID;
-    private String targetID;
-    private Object [] args;
+public class RetransmitirFant extends OneShotBehaviour{
 
-    public ComportamentoIniciaBusca(Agent a, String sourceID, String targetID) {
-        super(a);
-        this.sourceID = sourceID;
-        this.targetID = targetID;
-    }
+    private Object[] args;
+    private Fant fant;
     
+    public RetransmitirFant(Agent a, Fant fant) {
+        super(a);
+        this.fant = fant;
+    }
+
     @Override
     public void action() {
-        
-        for(Cell children : ((AgenteDispositivo)myAgent).getCell().getCellChildren()){
+         for(Cell children : ((AgenteDispositivo)myAgent).getCell().getCellChildren()){
             //System.out.println("Coord: "+children.getPosX()+" , "+children.getPosY());
             args = new Object[5];
             //grafo
-            args[0] = ((AgenteDispositivo)myAgent).getGraph();
+            args[0] = fant.getGraph();
             //id celula de origem (o primeiro agente que iniciou a busca e nao o anterior)
-            args[1] = sourceID;
+            args[1] = fant.getIdSource();
             //ID da celula de destino
-            args[2] = targetID;
+            args[2] = fant.getIdTarget();
             // proxima celula a ser visitada
             args[3] = children;
             //agente deste comportamento
             args[4] = ((AgenteDispositivo)myAgent).getCell();
-            addAgent(myAgent.getContainerController(), "F"+graph.Graph.getQtdFant(), Fant.class.getName(), args );
+            addAgent(myAgent.getContainerController(), "FANT"+graph.Graph.getQtdFant(), Fant.class.getName(), args );
             graph.Graph.incrQtdFant();
-        }
-        
+        } 
     }
     
-    private void addAgent(ContainerController cc, String agent, String classe, Object[] args) {
+    
+        private void addAgent(ContainerController cc, String agent, String classe, Object[] args) {
         try {
             //agentController = cc.createNewAgent(agent, classe, args);
             AgentController agentController = cc.createNewAgent(agent, classe, args);

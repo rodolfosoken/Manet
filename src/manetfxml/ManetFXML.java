@@ -26,6 +26,7 @@ public class ManetFXML extends Application {
         Scene scene = new Scene(root);
         stage.setScene(scene);
         stage.setTitle("ARA MANET");
+        stage.setX(0);
         stage.show();
                
     }

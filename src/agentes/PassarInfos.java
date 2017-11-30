@@ -5,27 +5,46 @@
  */
 package agentes;
 
+import jade.core.AID;
 import jade.core.Agent;
 import jade.core.behaviours.OneShotBehaviour;
+import jade.lang.acl.ACLMessage;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
  * @author rodolfo.soken
  */
-public class PassarInfos extends OneShotBehaviour {
-    
+public class PassarInfos extends OneShotBehaviour{
+
     private Fant agente;
-    
-    public PassarInfos(Agent a){
+
+    public PassarInfos(Agent a) {
         super(a);
         this.agente = (Fant) a;
-        
+
     }
 
     @Override
     public void action() {
         //passar parametros do agente fant para o proximo dispositivo
-        agente.getCellNext().getAgente().doWake();
+        //agente.getCellNext().getAgente().doWake();
+
+        //agente.getCellNext().getAgente().recebeFant(agente);
+        
+        ACLMessage msg = new ACLMessage(ACLMessage.INFORM);
+        msg.addReceiver(new AID(agente.getCellNext().getCellId(), true));
+        try {
+            msg.setContentObject(agente);
+            agente.send(msg);
+        } catch (IOException ex) {
+            Logger.getLogger(PassarInfos.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+       
+
     }
-    
+
 }

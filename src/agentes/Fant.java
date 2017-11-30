@@ -4,28 +4,33 @@ import graph.Graph;
 import graph.RectangleCell;
 import graph.TriangleCell;
 import jade.core.Agent;
+import java.io.Serializable;
 import javafx.application.Platform;
 
 /**
  *
  * @author Rodolfo
  */
-public class Fant extends Agent{
+public class Fant extends Agent implements Serializable{
     private Graph graph;
     private TriangleCell cellFant;      // Agente fant
     private RectangleCell cellNext;     // Proxima celula a ser visitada
-    private String idSource;     // Agente dispositivo que criou o fant
+    private RectangleCell cellAnterior; //ultima celula que a fant visitou
+    private String idSource;            // Agente dispositivo que criou o fant
     private String idTarget ;           // Id da celula de destino
+    private double pheromone;           //valor do feromonio calculado pela Fant
     
     @Override
     protected void setup(){
-                
-        this.cellFant = new TriangleCell(new String[]{this.getLocalName(),idSource,});
+        
+        //recebe tres strings [idAgente,idSource, idTarget]
+        this.cellFant = new TriangleCell(new String[]{this.getLocalName(),idSource,idTarget});
         this.graph = (Graph) getArguments()[0];
         this.idSource = (String)getArguments()[1];
         this.idTarget = (String) getArguments()[2];
         this.cellNext = (RectangleCell) getArguments()[3];
-        cellFant.setAgente(this);
+        this.cellAnterior = (RectangleCell) getArguments()[4];
+                cellFant.setAgente(this);
         
         //faz o posicionamento gráfico do agente
         if(cellNext != null){
@@ -37,11 +42,11 @@ public class Fant extends Agent{
         //adiciona a celula ao modelo grafico
         graph.getModel().addCell(cellFant);
         updateView();
-        
+
         addBehaviour(new PassarInfos(this));
     
     }
-        
+            
     public void updateView(){
          //atualiza a view na thread principal
         Platform.runLater(new Runnable() {
@@ -103,6 +108,13 @@ public class Fant extends Agent{
                 this.idTarget.equals(((Fant)other).getIdTarget())) return true;
         else return false;
     }   
+
+    /**
+     * @return the anteriorCell
+     */
+    public RectangleCell getCellAnterior() {
+        return cellAnterior;
+    }
   
    
 }

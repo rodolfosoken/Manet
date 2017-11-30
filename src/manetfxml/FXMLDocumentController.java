@@ -55,9 +55,9 @@ public class FXMLDocumentController implements Initializable {
         System.out.println("Dispositivo"+qtdDispositivo+" criado!");
         //adicionando agente
         //SINTAXE: addAgent(container, nome_do_agente, classe, parametros de inicializacao)
-        addAgent(containerController, "Dispositivo"+qtdDispositivo, AgenteDispositivo.class.getName(), args );
+        addAgent(containerController, "D"+qtdDispositivo, AgenteDispositivo.class.getName(), args );
         qtdDispositivo++;
-        layout.execute();
+        //layout.execute();
     }
     
     @FXML
