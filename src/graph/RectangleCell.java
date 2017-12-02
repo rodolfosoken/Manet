@@ -6,9 +6,11 @@ package graph;
  * and open the template in the editor.
  */
 
+import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Font;
 
 public class RectangleCell extends Cell {
     
@@ -19,13 +21,14 @@ public class RectangleCell extends Cell {
 
         Rectangle view = new Rectangle( 63,60);
         Label label = new Label(id);
+        label.setFont(Font.font(20));
 
         view.setStroke(Color.DODGERBLUE);
         view.setFill(Color.DODGERBLUE);
 
         setView( view);
         setView(label);
-
+        this.view = view;
     }
 
     /**

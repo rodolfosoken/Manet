@@ -10,6 +10,8 @@ import jade.core.behaviours.OneShotBehaviour;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Polygon;
 
 /**
  *
@@ -38,20 +40,23 @@ public class RecebeFant extends OneShotBehaviour{
             if (agente.getLocalName().equals(fant.getIdTarget())) {
 
                 System.out.println("DISPOSITIVO ENCONTRADO!");
+                ((Polygon)fant.getCellFant().getView()).setFill(Color.CHARTREUSE);
+                agente.updateView();
 
             } else {
                 //se não há registro desta fant na tabela então registrar e retransmitir
                 if (!agente.getTabela().containsKey(key)) {
                     //System.out.println(key);
                     agente.setFantRecebida(fant);
-                    agente.registraFant(key,0);
+                    agente.registraFant(key);
                     agente.setIsRetransmitir(true);
-                    agente.doWake();
+                    //agente.doWake();
                     //caso haja registro na tabela, entao descartar a fant
                 } else {
                     System.out.println("Removendo: " + 
                             fant.getLocalName() + " em "+ agente.getLocalName());
                     fant.doDelete();
+                    agente.setFantRecebida(null);
                 }
 
             }

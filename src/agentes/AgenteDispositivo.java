@@ -94,7 +94,7 @@ public class AgenteDispositivo extends Agent {
         
     }
     
-    private void updateView() {
+    public void updateView() {
         //atualiza a view na thread principal
         Platform.runLater(new Runnable() {
             @Override

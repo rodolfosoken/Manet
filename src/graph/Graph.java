@@ -86,9 +86,18 @@ public class Graph {
     }
 
     public void update() {
-       
         // add components to graph pane
+        for (Edge edge : model.getAddedEdges()) {
+           if(getCellLayer().getChildren().contains(edge)){
+               model.getAddedEdges().remove(edge);
+           }
+        }
         getCellLayer().getChildren().addAll(model.getAddedEdges());
+        for (Cell cell : model.getAddedCells()) {
+           if(getCellLayer().getChildren().contains(cell)){
+               model.getAddedEdges().remove(cell);
+           }
+        }
         getCellLayer().getChildren().addAll(model.getAddedCells());
 
         // remove components from graph pane

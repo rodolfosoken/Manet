@@ -8,6 +8,8 @@ package graph;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 
 public class MouseGestures {
 
@@ -36,12 +38,14 @@ public class MouseGestures {
             double scale = graph.getScale();
             if(node instanceof RectangleCell){
                 if(graph.getCellSelected()!=null){
-                    graph.getCellSelected().setStyle("-fx-background-color: white");
+                    ((Rectangle) graph.getCellSelected().getView()).setStroke(Color.DODGERBLUE);
                     graph.setCellSelected((Cell)node);
-                    graph.getCellSelected().setStyle("-fx-background-color: red");
+                    ((Rectangle) graph.getCellSelected().getView()).setStroke(Color.RED);
+                    ((Rectangle) graph.getCellSelected().getView()).setStrokeWidth(3);                    
                 }else{
                     graph.setCellSelected((Cell)node);
-                    graph.getCellSelected().setStyle("-fx-background-color: red");
+                    ((Rectangle) graph.getCellSelected().getView()).setStroke(Color.RED);
+                    ((Rectangle) graph.getCellSelected().getView()).setStrokeWidth(3);
                 }
             }
             dragContext.x = node.getBoundsInParent().getMinX() * scale - event.getScreenX();

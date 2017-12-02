@@ -6,9 +6,11 @@
 package graph;
 
 import agentes.Fant;
+import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
+import javafx.scene.text.Font;
 
 public class TriangleCell extends Cell {
     private Fant agente;
@@ -23,12 +25,17 @@ public class TriangleCell extends Cell {
 
         Polygon view = new Polygon( width / 2, 0, width, height, 0, height);
         this.label = new Label(id[0]);
+        label.setFont(Font.font(20));
+        label.setTranslateX(width/2);
+        label.setTranslateY(height/2);
         
         view.setStroke(Color.RED);
         view.setFill(Color.RED);
 
-        setView(label);
         setView( view);
+        setView(label);
+        
+        this.view = view;
     }
     
 

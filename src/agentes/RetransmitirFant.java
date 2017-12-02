@@ -42,8 +42,9 @@ public class RetransmitirFant extends OneShotBehaviour{
             args[3] = children;
             //agente deste comportamento
             args[4] = ((AgenteDispositivo)myAgent).getCell();
-            addAgent(myAgent.getContainerController(), "F"+graph.Graph.getQtdFant(), Fant.class.getName(), args );
             graph.Graph.incrQtdFant();
+            addAgent(myAgent.getContainerController(), "F"+graph.Graph.getQtdFant(), Fant.class.getName(), args );
+            
         } 
     }
     
