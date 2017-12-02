@@ -114,6 +114,10 @@ public class Model {
         getRemovedCells().add(cell);
     }
     
+    public void removeTriangularCell(Cell cell){
+        getRemovedCells().add(cell);        
+    }
+    
     /**
      * Attach all cells which don't have a parent to graphParent 
      * @param cellList

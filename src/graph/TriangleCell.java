@@ -31,11 +31,6 @@ public class TriangleCell extends Cell {
         setView( view);
     }
     
-//    public void destroyCell(){
-//        this.removeView(label);
-//        this.removeView(view);
-//        //this.view.setVisible(false);
-//    }
 
     /**
      * @return the agente

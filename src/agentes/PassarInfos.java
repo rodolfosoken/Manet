@@ -19,27 +19,18 @@ public class PassarInfos extends OneShotBehaviour{
     public PassarInfos(Agent a) {
         super(a);
         this.agente = (Fant) a;
-
+        System.out.println("Infos de "+a.getLocalName()+
+                " chegando em " + agente.getCellNext().getAgente().getLocalName());
     }
 
     @Override
     public void action() {
         //passar parametros do agente fant para o proximo dispositivo
-        //agente.getCellNext().getAgente().doWake();
-
-        agente.getCellNext().getAgente().recebeFant(agente);
-        
-//        ACLMessage msg = new ACLMessage(ACLMessage.INFORM);
-//        msg.addReceiver(new AID(agente.getCellNext().getCellId(), true));
-//        try {
-//            msg.setContentObject(agente);
-//            agente.send(msg);
-//        } catch (IOException ex) {
-//            Logger.getLogger(PassarInfos.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-//        
        
-
+//        agente.getCellNext().getAgente().setFantRecebida(agente);
+//        agente.getCellNext().getAgente().doWake();
+           
+           agente.getCellNext().getAgente().recebeFant(agente);
     }
 
 }

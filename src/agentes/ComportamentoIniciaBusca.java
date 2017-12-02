@@ -12,6 +12,7 @@ import jade.core.behaviours.OneShotBehaviour;
 import jade.wrapper.AgentController;
 import jade.wrapper.ContainerController;
 import jade.wrapper.StaleProxyException;
+import java.util.Arrays;
 
 /**
  *
@@ -22,11 +23,17 @@ public class ComportamentoIniciaBusca extends OneShotBehaviour{
     private String sourceID;
     private String targetID;
     private Object [] args;
+    private AgenteDispositivo agente;
 
     public ComportamentoIniciaBusca(Agent a, String sourceID, String targetID) {
         super(a);
         this.sourceID = sourceID;
         this.targetID = targetID;
+        this.agente = (AgenteDispositivo)a;
+        System.out.println("Inciando Busca em "+a.getLocalName());
+        
+        //registrar a fant criada na tabela para rejeitar duplicatas
+        agente.registraFant(Arrays.asList(sourceID,targetID));
     }
     
     @Override

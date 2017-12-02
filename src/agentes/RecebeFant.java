@@ -7,13 +7,9 @@ package agentes;
 
 import jade.core.Agent;
 import jade.core.behaviours.OneShotBehaviour;
-import jade.lang.acl.ACLMessage;
-import jade.lang.acl.UnreadableException;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -25,6 +21,7 @@ public class RecebeFant extends OneShotBehaviour{
     public RecebeFant(Agent a) {
         super(a);
         agente = (AgenteDispositivo) a;
+        System.out.println("Fant Recebida em "+a.getLocalName());
     }
     
     
@@ -32,35 +29,33 @@ public class RecebeFant extends OneShotBehaviour{
     @Override
     public void action() {
         
-        Fant fant = null;
-        ACLMessage msg = agente.receive();
-        try {
-            fant = (Fant) msg.getContentObject();
-        } catch (UnreadableException ex) {
-            Logger.getLogger(AgenteDispositivo.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        Fant fant = agente.getFantRecebida();
 
+       
         if (fant != null) {
             List<String> key = Collections.unmodifiableList(Arrays.asList(fant.getIdSource(), fant.getIdTarget()));
 
-            //se há registro na tabela entao ele é o destino ou duplicado
-            if (agente.getTabela().containsKey(key) || fant.getIdTarget().equals(myAgent.getLocalName())) {
-                if (fant.getIdTarget().equals(myAgent.getLocalName())) {
-                    System.out.println("DISPOSITIVO ENCONTRADO");
+            if (agente.getLocalName().equals(fant.getIdTarget())) {
+
+                System.out.println("DISPOSITIVO ENCONTRADO!");
+
+            } else {
+                //se não há registro desta fant na tabela então registrar e retransmitir
+                if (!agente.getTabela().containsKey(key)) {
+                    //System.out.println(key);
+                    agente.setFantRecebida(fant);
+                    agente.registraFant(key,0);
+                    agente.setIsRetransmitir(true);
+                    agente.doWake();
+                    //caso haja registro na tabela, entao descartar a fant
                 } else {
+                    System.out.println("Removendo: " + 
+                            fant.getLocalName() + " em "+ agente.getLocalName());
                     fant.doDelete();
                 }
-            //caso contrário será registrado
-            } else {
-                agente.setFantRecebida(fant);
-                agente.registraFant(key);
-                agente.setIsRetransmitir(true);
-                agente.doWake();
+
             }
-        }else{
-            System.out.println("Falha ao receber fant");
         }
-        
     }
     
 }

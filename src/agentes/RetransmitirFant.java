@@ -24,6 +24,7 @@ public class RetransmitirFant extends OneShotBehaviour{
     public RetransmitirFant(Agent a, Fant fant) {
         super(a);
         this.fant = fant;
+        System.out.println("Retransmitindo "+ fant.getLocalName());
     }
 
     @Override
@@ -52,6 +53,8 @@ public class RetransmitirFant extends OneShotBehaviour{
             //agentController = cc.createNewAgent(agent, classe, args);
             AgentController agentController = cc.createNewAgent(agent, classe, args);
             agentController.start();
+            fant.doDelete();
+            ((AgenteDispositivo) myAgent).setFantRecebida(null);
         } catch (StaleProxyException s) {
             s.printStackTrace();
         }

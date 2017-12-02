@@ -13,20 +13,22 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javafx.application.Platform;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Polygon;
 
 /**
  *
  * @author Rodolfo
  */
 public class AgenteDispositivo extends Agent {
-
+    
     private RectangleCell cell;
     private Graph graph;
     private Map<List<String>, Registro> tabela;
-
+    
     private boolean isRetransmitir = false;
     private Fant fantRecebida;
-
+    
     @Override
     protected void setup() {
         tabela = new HashMap<>();
@@ -34,44 +36,54 @@ public class AgenteDispositivo extends Agent {
         getCell().setAgente(this);
         this.graph = (graph.Graph) getArguments()[0];
         getGraph().getModel().addCell(getCell());
-
+        
         updateView();
-
+        
     }
-
+    
     public void recebeFant(Fant fant) {
-
+        
         if (fant != null) {
-            List<String>key = Collections.unmodifiableList(Arrays.asList(fant.getIdSource(), fant.getIdTarget()));
-
+            List<String> key = Collections.unmodifiableList(Arrays.asList(fant.getIdSource(), fant.getIdTarget()));
+            
             if (this.getLocalName().equals(fant.getIdTarget())) {
                 
                 System.out.println("DISPOSITIVO ENCONTRADO!");
-
+                ((Polygon)fant.getCellFant().getView()).setFill(Color.CHARTREUSE);
+                updateView();
             } else {
                 //se não há registro desta fant na tabela então registrar e retransmitir
                 if (!tabela.containsKey(key)) {
-                    System.out.println(key);
+                    // System.out.println(key);
                     this.fantRecebida = fant;
-                    registraFant(key);
+                    registraFant(key, 0);
                     isRetransmitir = true;
                     doWake();
                     //caso haja registro na tabela, entao descartar a fant
                 } else {
-                    System.out.println("Removendo: " + fant.getLocalName());                    
+                    System.out.println("Removendo: "
+                            + fant.getLocalName() + " em " + this.getLocalName());
                     fant.doDelete();
                 }
-
+                
             }
         }
     }
-
-    public void registraFant(List<String>key) {
-        this.getTabela().put(key, new Registro(fantRecebida.getIdSource(),fantRecebida.getCellAnterior().getCellId(), 0));
+    
+    public void registraFant(List<String> key, double pheromone) {
+        this.getTabela().put(key, new Registro(
+                fantRecebida.getIdSource(), fantRecebida.getCellAnterior().getCellId(), pheromone));
     }
-
+    
+    public void registraFant(List<String> key) {
+        this.getTabela().put(key, new Registro(key.get(0), key.get(1), 0));
+    }
+    
     @Override
     public void doWake() {
+//        if(fantRecebida != null){
+//            addBehaviour(new RecebeFant(this));
+//        }
         if (isRetransmitir) {
             addBehaviour(new RetransmitirFant(this, fantRecebida));
             isRetransmitir = false;
@@ -79,9 +91,9 @@ public class AgenteDispositivo extends Agent {
             addBehaviour(new ComportamentoIniciaBusca(
                     this, getGraph().getCellSelected().getCellId(), (String) getArguments()[2]));
         }
-
+        
     }
-
+    
     private void updateView() {
         //atualiza a view na thread principal
         Platform.runLater(new Runnable() {
@@ -91,19 +103,19 @@ public class AgenteDispositivo extends Agent {
             }
         });
     }
-
+    
     @Override
     protected void takeDown() {
         getGraph().getModel().removeCell(this.getCell());
         updateView();
         super.takeDown(); //To change body of generated methods, choose Tools | Templates.
     }
-
+    
     public class Registro {
-
+        
         private String source, next;
         private double pheromone;
-
+        
         public Registro(String source, String next, double pheromone) {
             this.source = (source);
             this.next = (next);
@@ -166,5 +178,5 @@ public class AgenteDispositivo extends Agent {
     public void setFantRecebida(Fant fantRecebida) {
         this.fantRecebida = fantRecebida;
     }
-
+    
 }

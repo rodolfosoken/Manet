@@ -46,6 +46,7 @@ public class Fant extends Agent {
         addBehaviour(new PassarInfos(this));
     
     }
+    
             
     public void updateView(){
          //atualiza a view na thread principal
@@ -59,10 +60,12 @@ public class Fant extends Agent {
 
     @Override
     protected void takeDown() {
-        graph.getModel().removeCell(this.cellFant);
+        graph.getModel().removeTriangularCell(this.cellFant);
         updateView();
         super.takeDown(); //To change body of generated methods, choose Tools | Templates.
     }
+    
+    
 
     /**
      * @return the graph

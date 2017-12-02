@@ -7,7 +7,6 @@ package manetfxml;
 
 import agentes.AgenteDispositivo;
 import graph.Graph;
-import graph.RectangleCell;
 import jade.core.Profile;
 import jade.core.ProfileImpl;
 import jade.wrapper.AgentController;
@@ -62,7 +61,7 @@ public class FXMLDocumentController implements Initializable {
     
     @FXML
     private void inciarBusca(ActionEvent e){
-        System.out.println("iniciarBusca");
+        //System.out.println("iniciarBusca");
         args[2] = idDestino.getText();
         try {
             containerController.getAgent(graph.getCellSelected().getCellId()).activate();
