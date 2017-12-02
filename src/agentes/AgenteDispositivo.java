@@ -7,7 +7,11 @@ package agentes;
 import graph.RectangleCell;
 import graph.Graph;
 import jade.core.Agent;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import javafx.application.Platform;
 
 /**
@@ -18,7 +22,7 @@ public class AgenteDispositivo extends Agent {
 
     private RectangleCell cell;
     private Graph graph;
-    private HashMap<String[], Registro> tabela;
+    private Map<List<String>, Registro> tabela;
 
     private boolean isRetransmitir = false;
     private Fant fantRecebida;
@@ -35,23 +39,47 @@ public class AgenteDispositivo extends Agent {
 
     }
 
-    public void registraFant(String[] key){
-         this.getTabela().put(key, new Registro(fantRecebida.getIdSource(), 
-                        fantRecebida.getCellAnterior().getCellId(), 0));
+    public void recebeFant(Fant fant) {
+
+        if (fant != null) {
+            List<String>key = Collections.unmodifiableList(Arrays.asList(fant.getIdSource(), fant.getIdTarget()));
+
+            if (this.getLocalName().equals(fant.getIdTarget())) {
+                
+                System.out.println("DISPOSITIVO ENCONTRADO!");
+
+            } else {
+                //se não há registro desta fant na tabela então registrar e retransmitir
+                if (!tabela.containsKey(key)) {
+                    System.out.println(key);
+                    this.fantRecebida = fant;
+                    registraFant(key);
+                    isRetransmitir = true;
+                    doWake();
+                    //caso haja registro na tabela, entao descartar a fant
+                } else {
+                    System.out.println("Removendo: " + fant.getLocalName());                    
+                    fant.doDelete();
+                }
+
+            }
+        }
+    }
+
+    public void registraFant(List<String>key) {
+        this.getTabela().put(key, new Registro(fantRecebida.getIdSource(),fantRecebida.getCellAnterior().getCellId(), 0));
     }
 
     @Override
     public void doWake() {
         if (isRetransmitir) {
-
             addBehaviour(new RetransmitirFant(this, fantRecebida));
-            //fantRecebida.doSuspend();
-            isRetransmitir = !isRetransmitir;
+            isRetransmitir = false;
         } else {
             addBehaviour(new ComportamentoIniciaBusca(
                     this, getGraph().getCellSelected().getCellId(), (String) getArguments()[2]));
         }
-        super.doWake(); //To change body of generated methods, choose Tools | Templates.
+
     }
 
     private void updateView() {
@@ -107,7 +135,7 @@ public class AgenteDispositivo extends Agent {
     /**
      * @return the tabela
      */
-    public HashMap<String[], Registro> getTabela() {
+    public Map<List<String>, Registro> getTabela() {
         return tabela;
     }
 

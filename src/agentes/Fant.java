@@ -11,7 +11,7 @@ import javafx.application.Platform;
  *
  * @author Rodolfo
  */
-public class Fant extends Agent implements Serializable{
+public class Fant extends Agent {
     private Graph graph;
     private TriangleCell cellFant;      // Agente fant
     private RectangleCell cellNext;     // Proxima celula a ser visitada

@@ -9,6 +9,9 @@ import jade.core.Agent;
 import jade.core.behaviours.OneShotBehaviour;
 import jade.lang.acl.ACLMessage;
 import jade.lang.acl.UnreadableException;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -38,7 +41,7 @@ public class RecebeFant extends OneShotBehaviour{
         }
 
         if (fant != null) {
-            String[] key = {fant.getIdSource(), fant.getIdTarget()};
+            List<String> key = Collections.unmodifiableList(Arrays.asList(fant.getIdSource(), fant.getIdTarget()));
 
             //se há registro na tabela entao ele é o destino ou duplicado
             if (agente.getTabela().containsKey(key) || fant.getIdTarget().equals(myAgent.getLocalName())) {

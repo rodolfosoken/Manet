@@ -12,6 +12,7 @@ import javafx.scene.shape.Polygon;
 
 public class TriangleCell extends Cell {
     private Fant agente;
+    private Label label;
 
     //recebe tres strings [idAgente,idSource, idTarget]
     public TriangleCell( String[] id) {
@@ -21,14 +22,20 @@ public class TriangleCell extends Cell {
         double height = 50;
 
         Polygon view = new Polygon( width / 2, 0, width, height, 0, height);
-        Label label = new Label(id[0]);
+        this.label = new Label(id[0]);
         
         view.setStroke(Color.RED);
         view.setFill(Color.RED);
 
-        setView( view);
         setView(label);
+        setView( view);
     }
+    
+//    public void destroyCell(){
+//        this.removeView(label);
+//        this.removeView(view);
+//        //this.view.setVisible(false);
+//    }
 
     /**
      * @return the agente

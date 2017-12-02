@@ -55,6 +55,10 @@ public class Cell extends Pane {
         getChildren().add(view);
 
     }
+    
+    public void removeView(Node view){
+        getChildren().remove(view);
+    }
 
     public Node getView() {
         return this.view;
