@@ -54,7 +54,7 @@ public class FXMLDocumentController implements Initializable {
         System.out.println("Dispositivo"+qtdDispositivo+" criado!");
         //adicionando agente
         //SINTAXE: addAgent(container, nome_do_agente, classe, parametros de inicializacao)
-        addAgent(containerController, "D"+qtdDispositivo, AgenteDispositivo.class.getName(), args );
+        addAgent("D"+qtdDispositivo, AgenteDispositivo.class.getName(), args );
         qtdDispositivo++;
         //layout.execute();
     }
@@ -62,7 +62,7 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private void inciarBusca(ActionEvent e){
         //System.out.println("iniciarBusca");
-        args[2] = idDestino.getText();
+        args[2] = idDestino.getText().toUpperCase();
         try {
             containerController.getAgent(graph.getCellSelected().getCellId()).activate();
         } catch (ControllerException ex) {
@@ -76,7 +76,7 @@ public class FXMLDocumentController implements Initializable {
          //iniciando main container
         startMainContainer("127.0.0.1", Profile.LOCAL_PORT, "MANET");
         //adicionando agente RMA
-        addAgent(containerController, "rma", jade.tools.rma.rma.class.getName(), null);     
+        addAgent( "rma", jade.tools.rma.rma.class.getName(), null);     
         graph = new Graph();
         scrollPane.setContent(graph.getScrollPane());
         layout = new RandomLayout(graph);
@@ -106,11 +106,12 @@ public class FXMLDocumentController implements Initializable {
         containerController = runtime.createMainContainer(profile);
     }
 
-    private static void addAgent(ContainerController cc, String agent, String classe, Object[] args) {
+    public static void addAgent(String agent, String classe, Object[] args) {
         try {
             //agentController = cc.createNewAgent(agent, classe, args);
-            agentController = cc.createNewAgent(agent, classe, args);
+            agentController = containerController.createNewAgent(agent, classe, args);
             agentController.start();
+            
         } catch (StaleProxyException s) {
             s.printStackTrace();
         }

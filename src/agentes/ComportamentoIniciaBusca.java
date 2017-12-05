@@ -13,6 +13,7 @@ import jade.wrapper.AgentController;
 import jade.wrapper.ContainerController;
 import jade.wrapper.StaleProxyException;
 import java.util.Arrays;
+import manetfxml.FXMLDocumentController;
 
 /**
  *
@@ -53,20 +54,10 @@ public class ComportamentoIniciaBusca extends OneShotBehaviour{
             //agente deste comportamento
             args[4] = ((AgenteDispositivo)myAgent).getCell();
             graph.Graph.incrQtdFant();
-            addAgent(myAgent.getContainerController(), "F"+graph.Graph.getQtdFant(), Fant.class.getName(), args );
+            FXMLDocumentController.addAgent("F"+graph.Graph.getQtdFant(), Fant.class.getName(), args );
             
         }
         
-    }
-    
-    private void addAgent(ContainerController cc, String agent, String classe, Object[] args) {
-        try {
-            //agentController = cc.createNewAgent(agent, classe, args);
-            AgentController agentController = cc.createNewAgent(agent, classe, args);
-            agentController.start();
-        } catch (StaleProxyException s) {
-            s.printStackTrace();
-        }
     }
     
 }

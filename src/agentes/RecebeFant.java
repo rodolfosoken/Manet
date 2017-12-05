@@ -6,7 +6,7 @@
 package agentes;
 
 import jade.core.Agent;
-import jade.core.behaviours.OneShotBehaviour;
+import jade.core.behaviours.WakerBehaviour;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -17,19 +17,19 @@ import javafx.scene.shape.Polygon;
  *
  * @author Rodolfo
  */
-public class RecebeFant extends OneShotBehaviour{
+public class RecebeFant extends WakerBehaviour{
 
     AgenteDispositivo agente;
-    public RecebeFant(Agent a) {
-        super(a);
-        agente = (AgenteDispositivo) a;
-        System.out.println("Fant Recebida em "+a.getLocalName());
+    public RecebeFant(Agent dispositivo) {
+        super(dispositivo,200);
+        agente = (AgenteDispositivo) dispositivo;
+        System.out.println("Fant Recebida em "+dispositivo.getLocalName());
     }
     
     
 
     @Override
-    public void action() {
+    public void onWake() {
         
         Fant fant = agente.getFantRecebida();
 
@@ -37,9 +37,10 @@ public class RecebeFant extends OneShotBehaviour{
         if (fant != null) {
             List<String> key = Collections.unmodifiableList(Arrays.asList(fant.getIdSource(), fant.getIdTarget()));
 
-            if (agente.getLocalName().equals(fant.getIdTarget())) {
+            if (!agente.getTabela().containsKey(key) && agente.getLocalName().equals(fant.getIdTarget())) {
 
                 System.out.println("DISPOSITIVO ENCONTRADO!");
+                agente.registraFant(key);
                 ((Polygon)fant.getCellFant().getView()).setFill(Color.CHARTREUSE);
                 agente.updateView();
 
@@ -50,13 +51,12 @@ public class RecebeFant extends OneShotBehaviour{
                     agente.setFantRecebida(fant);
                     agente.registraFant(key);
                     agente.setIsRetransmitir(true);
-                    //agente.doWake();
+                    myAgent.doWake();
                     //caso haja registro na tabela, entao descartar a fant
                 } else {
                     System.out.println("Removendo: " + 
                             fant.getLocalName() + " em "+ agente.getLocalName());
                     fant.doDelete();
-                    agente.setFantRecebida(null);
                 }
 
             }

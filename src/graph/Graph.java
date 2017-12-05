@@ -6,6 +6,7 @@
 package graph;
 
 import java.util.List;
+import java.util.Random;
 import javafx.scene.Group;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.Pane;
@@ -20,9 +21,9 @@ public class Graph {
     private ZoomableScrollPane scrollPane;
 
     MouseGestures mouseGestures;
-    
+
     private Cell cellSelected;
-    
+
     private static int qtdFant;
 
     /**
@@ -44,7 +45,7 @@ public class Graph {
 
         cellSelected = null;
         mouseGestures = new MouseGestures(this);
-        
+
         scrollPane = new ZoomableScrollPane(canvas);
 
         scrollPane.setFitToWidth(true);
@@ -66,38 +67,53 @@ public class Graph {
     }
 
     public void updateNode(Cell cell) {
-        if(cell instanceof RectangleCell){
+        if (cell instanceof RectangleCell) {
             List<Cell> allCells = model.getAllCells();
 
-            for(Cell cellProx : allCells){
-                if(cellProx instanceof RectangleCell){
-                    if(!cell.equals(cellProx) && Math.abs(cellProx.getPosX() - cell.getPosX()) < getAlcance() && Math.abs(cellProx.getPosY()- cell.getPosY()) < getAlcance()){
+            for (Cell cellProx : allCells) {
+                if (cellProx instanceof RectangleCell) {
+                    if (!cell.equals(cellProx) && Math.abs(cellProx.getPosX() - cell.getPosX()) < getAlcance() && Math.abs(cellProx.getPosY() - cell.getPosY()) < getAlcance()) {
                         //System.out.println("Criando edge para: " + cell.getCellId()+ ", " + cellProx.getCellId());
                         model.addEdge(cell.getCellId(), cellProx.getCellId());
-                    }else{
+                    } else {
                         model.removeEdge(cell.getCellId(), cellProx.getCellId());
                         model.removeEdge(cellProx.getCellId(), cell.getCellId());
                     }
                 }
             }
 
-            update();        
+            update();
         }
+    }
+    
+    public void updateFant(){
+        getCellLayer().getChildren().addAll(model.getAddedCells());
+
+        // remove components from graph pane
+        getCellLayer().getChildren().removeAll(model.getRemovedCells());
+
+        // enable dragging of cells
+        for (Cell cell : model.getAddedCells()) {
+            mouseGestures.makeDraggable(cell);
+            cell.relocate(cell.getPosX(), cell.getPosY());
+        }
+
+        // every cell must have a parent, if it doesn't, then the graphParent is
+        // the parent
+        getModel().attachOrphansToGraphParent(model.getAddedCells());
+
+        // remove reference to graphParent
+        getModel().disconnectFromGraphParent(model.getRemovedCells());
+
+        // merge added & removed cells with all cells
+        getModel().merge();
+
+        
     }
 
     public void update() {
-        // add components to graph pane
-        for (Edge edge : model.getAddedEdges()) {
-           if(getCellLayer().getChildren().contains(edge)){
-               model.getAddedEdges().remove(edge);
-           }
-        }
+       
         getCellLayer().getChildren().addAll(model.getAddedEdges());
-        for (Cell cell : model.getAddedCells()) {
-           if(getCellLayer().getChildren().contains(cell)){
-               model.getAddedEdges().remove(cell);
-           }
-        }
         getCellLayer().getChildren().addAll(model.getAddedCells());
 
         // remove components from graph pane
@@ -153,8 +169,8 @@ public class Graph {
     public void setCellSelected(Cell cellSelected) {
         this.cellSelected = cellSelected;
     }
-    
-    public static void incrQtdFant(){
+
+    public static void incrQtdFant() {
         qtdFant++;
     }
 
@@ -164,5 +180,5 @@ public class Graph {
     public static int getQtdFant() {
         return qtdFant;
     }
-    
+
 }

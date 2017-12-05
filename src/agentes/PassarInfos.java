@@ -6,31 +6,29 @@
 package agentes;
 
 import jade.core.Agent;
+import jade.core.behaviours.OneShotBehaviour;
 import jade.core.behaviours.WakerBehaviour;
 
 /**
  *
  * @author rodolfo.soken
  */
-public class PassarInfos extends WakerBehaviour{
+public class PassarInfos extends OneShotBehaviour{
 
     private Fant agente;
 
     public PassarInfos(Agent a) {
-        super(a,1000);
+        super(a);
         this.agente = (Fant) a;
         System.out.println("Infos de "+a.getLocalName()+
                 " chegando em " + agente.getCellNext().getAgente().getLocalName());
     }
 
     @Override
-    public void onWake() {
-        //passar parametros do agente fant para o proximo dispositivo
-       
-//        agente.getCellNext().getAgente().setFantRecebida(agente);
-//        agente.getCellNext().getAgente().doWake();
-           
-           agente.getCellNext().getAgente().recebeFant(agente);
-    }
+    public void action() {
+        //passar parametros do agente fant para o proximo dispositivo                  
+         agente.getCellNext().getAgente().recebeFant(agente);
+        }
+    
 
 }

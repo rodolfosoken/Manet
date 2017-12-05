@@ -53,7 +53,7 @@ public class Fant extends Agent {
         Platform.runLater(new Runnable() {
             @Override
             public void run() {
-                getGraph().update();
+                getGraph().updateFant();
             }
         });
     }

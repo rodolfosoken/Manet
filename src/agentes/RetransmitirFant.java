@@ -7,29 +7,41 @@ package agentes;
 
 import graph.Cell;
 import jade.core.Agent;
-import jade.core.behaviours.OneShotBehaviour;
-import jade.wrapper.AgentController;
-import jade.wrapper.ContainerController;
-import jade.wrapper.StaleProxyException;
+import jade.core.behaviours.WakerBehaviour;
+import java.util.Random;
+import manetfxml.FXMLDocumentController;
 
 /**
  *
  * @author rodolfo.soken
  */
-public class RetransmitirFant extends OneShotBehaviour{
+public class RetransmitirFant extends WakerBehaviour {
 
     private Object[] args;
     private Fant fant;
-    
+
     public RetransmitirFant(Agent a, Fant fant) {
-        super(a);
+        super(a, 1000);
         this.fant = fant;
-        System.out.println("Retransmitindo "+ fant.getLocalName());
+        System.out.println("Retransmitindo " + fant.getLocalName());
     }
 
     @Override
-    public void action() {
-         for(Cell children : ((AgenteDispositivo)myAgent).getCell().getCellChildren()){
+    public void onWake() {
+        
+        //ao retransmitir a fant é preciso considerar o tempo de atualizacao da view
+        for (Cell children : ((AgenteDispositivo) myAgent).getCell().getCellChildren()) {
+            try {
+            long LOWER_RANGE = 50; //assign lower range value
+            long UPPER_RANGE = 200; //assign upper range value
+            Random random = new Random();
+
+            long randomValue = LOWER_RANGE
+                    + (long) (random.nextDouble() * (UPPER_RANGE - LOWER_RANGE));
+            Thread.sleep(randomValue);
+        } catch (Exception e) {
+            System.out.println("Erro: " + e);
+        }
             //System.out.println("Coord: "+children.getPosX()+" , "+children.getPosY());
             args = new Object[5];
             //grafo
@@ -41,24 +53,12 @@ public class RetransmitirFant extends OneShotBehaviour{
             // proxima celula a ser visitada
             args[3] = children;
             //agente deste comportamento
-            args[4] = ((AgenteDispositivo)myAgent).getCell();
+            args[4] = ((AgenteDispositivo) myAgent).getCell();
             graph.Graph.incrQtdFant();
-            addAgent(myAgent.getContainerController(), "F"+graph.Graph.getQtdFant(), Fant.class.getName(), args );
-            
-        } 
-    }
-    
-    
-        private void addAgent(ContainerController cc, String agent, String classe, Object[] args) {
-        try {
-            //agentController = cc.createNewAgent(agent, classe, args);
-            AgentController agentController = cc.createNewAgent(agent, classe, args);
-            agentController.start();
-            fant.doDelete();
-            ((AgenteDispositivo) myAgent).setFantRecebida(null);
-        } catch (StaleProxyException s) {
-            s.printStackTrace();
+            FXMLDocumentController.addAgent( "F" + graph.Graph.getQtdFant(), Fant.class.getName(), args);
         }
+        fant.doDelete();
     }
+    
     
 }
