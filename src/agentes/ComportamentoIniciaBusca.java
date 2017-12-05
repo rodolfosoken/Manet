@@ -6,13 +6,11 @@
 package agentes;
 
 import graph.Cell;
-import graph.RectangleCell;
 import jade.core.Agent;
 import jade.core.behaviours.OneShotBehaviour;
-import jade.wrapper.AgentController;
-import jade.wrapper.ContainerController;
-import jade.wrapper.StaleProxyException;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 import manetfxml.FXMLDocumentController;
 
 /**
@@ -34,7 +32,8 @@ public class ComportamentoIniciaBusca extends OneShotBehaviour{
         System.out.println("Inciando Busca em "+a.getLocalName());
         
         //registrar a fant criada na tabela para rejeitar duplicatas
-        agente.registraFant(Arrays.asList(sourceID,targetID));
+         List<String> key = Collections.unmodifiableList(Arrays.asList(sourceID,targetID));
+        agente.registraFant(key);
     }
     
     @Override
