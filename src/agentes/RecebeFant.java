@@ -86,6 +86,7 @@ public class RecebeFant extends OneShotBehaviour {
         } else {
             System.out.println(myAgent.getLocalName() + ": "
                     + "FANT NULA!!");
+            agente.setIsProcessandoFant(false);
         }
     }
 

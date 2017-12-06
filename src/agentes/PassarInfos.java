@@ -52,6 +52,10 @@ public class PassarInfos extends SimpleBehaviour {
             System.out.println(myAgent.getLocalName()+": "+
                     "OK: Envio de "+myAgent.getLocalName()+" para " +
                     agente.getCellNext().getAgente().getLocalName()+" concluido!");
+            if(nExecucoes>30){
+                fim=true;
+                System.out.println("FALHA NO ENVIO DA : "+myAgent.getLocalName());
+            }
         }
         
         nExecucoes++;
