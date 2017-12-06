@@ -12,6 +12,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import javafx.event.EventHandler;
+import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
@@ -105,7 +106,8 @@ public class RecebeFant extends OneShotBehaviour {
     EventHandler<MouseEvent> onMouseDoubleClickHandler = new EventHandler<MouseEvent>() {
         @Override
         public void handle(MouseEvent event) {
-            showMessage();
+            if(event.getButton().equals(MouseButton.PRIMARY) && event.getClickCount()>1)
+                showMessage();
         }
     };
 
