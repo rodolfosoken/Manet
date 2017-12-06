@@ -54,7 +54,7 @@ public class RetransmitirFant extends WakerBehaviour {
             FXMLDocumentController.addAgentFant(args);
             
             try {
-                Thread.sleep(100);
+                Thread.sleep(20);
             } catch (Exception e) {
                 System.out.println(myAgent.getLocalName()+": "+"Erro: " + e);
             }

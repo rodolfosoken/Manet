@@ -56,7 +56,7 @@ public class Fant extends Agent {
             public void run() {
                 try {
                     long LOWER_RANGE = 20; //assign lower range value
-                    long UPPER_RANGE = 70; //assign upper range value
+                    long UPPER_RANGE = 50; //assign upper range value
                     Random random = new Random();
 
                     long randomValue = LOWER_RANGE
