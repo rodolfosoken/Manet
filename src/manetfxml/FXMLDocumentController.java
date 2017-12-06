@@ -58,7 +58,7 @@ public class FXMLDocumentController implements Initializable {
     private void criarDispositivo(ActionEvent event) {
         System.out.println("Dispositivo"+qtdDispositivo+" criado!");
         //adicionando agente
-        //SINTAXE: addAgent(container, nome_do_agente, classe, parametros de inicializacao)
+        //SINTAXE: addAgent(nome_do_agente, classe, parametros de inicializacao)
         addAgent("D"+qtdDispositivo, AgenteDispositivo.class.getName(), args );
         qtdDispositivo++;
         //layout.execute();
@@ -67,7 +67,7 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private void inciarBusca(ActionEvent e){
         //System.out.println("iniciarBusca");
-        args[2] = idDestino.getText().toUpperCase();
+        args[2] = "D"+idDestino.getText().toUpperCase();
         try {
             containerController.getAgent(graph.getCellSelected().getCellId()).activate();
         } catch (ControllerException ex) {
