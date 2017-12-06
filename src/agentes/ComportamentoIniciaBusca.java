@@ -8,6 +8,7 @@ package agentes;
 import graph.Cell;
 import jade.core.Agent;
 import jade.core.behaviours.OneShotBehaviour;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -42,7 +43,7 @@ public class ComportamentoIniciaBusca extends OneShotBehaviour{
         
         for(Cell children : ((AgenteDispositivo)myAgent).getCell().getCellChildren()){
             //System.out.println("Coord: "+children.getPosX()+" , "+children.getPosY());
-            args = new Object[5];
+            args = new Object[6];
             //grafo
             args[0] = ((AgenteDispositivo)myAgent).getGraph();
             //id celula de origem (o primeiro agente que iniciou a busca e nao o anterior)
@@ -53,6 +54,8 @@ public class ComportamentoIniciaBusca extends OneShotBehaviour{
             args[3] = children;
             //agente deste comportamento
             args[4] = ((AgenteDispositivo)myAgent).getCell();
+            //lista com celulas já visitadas pela fant
+            args[5] = Arrays.asList(myAgent.getLocalName());
             FXMLDocumentController.addAgentFant(args);
             
         }

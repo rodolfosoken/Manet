@@ -6,7 +6,6 @@
 package agentes;
 
 import graph.Cell;
-import jade.content.onto.basic.Done;
 import jade.core.Agent;
 import jade.core.behaviours.WakerBehaviour;
 import manetfxml.FXMLDocumentController;
@@ -40,7 +39,7 @@ public class RetransmitirFant extends WakerBehaviour {
                 System.out.println(myAgent.getLocalName()+": "+"Erro: " + e);
             }
             //System.out.println("Coord: "+children.getPosX()+" , "+children.getPosY());
-            args = new Object[5];
+            args = new Object[6];
             //grafo
             args[0] = fant.getGraph();
             //id celula de origem (o primeiro agente que iniciou a busca e nao o anterior)
@@ -51,6 +50,8 @@ public class RetransmitirFant extends WakerBehaviour {
             args[3] = children;
             //agente deste comportamento
             args[4] = ((AgenteDispositivo) myAgent).getCell();
+            //lista com celulas já visitadas pela fant
+            args[5] = fant.getCellVisitadas();
             FXMLDocumentController.addAgentFant(args);
             
             try {

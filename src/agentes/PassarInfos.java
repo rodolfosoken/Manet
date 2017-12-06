@@ -32,6 +32,9 @@ public class PassarInfos extends SimpleBehaviour {
     public void action() {
         //passar parametros do agente fant para o proximo dispositivo                  
         fim = agente.getCellNext().getAgente().recebeFant(agente);
+        
+        //se ainda há uma fant sendo processada e esta nao for recebida
+        //entao esperar por um tempo aleatorio e tentar novamente
         if (!fim) {
             try {
                 long LOWER_RANGE = 50; //assign lower range value

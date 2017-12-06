@@ -4,7 +4,8 @@ import graph.Graph;
 import graph.RectangleCell;
 import graph.TriangleCell;
 import jade.core.Agent;
-import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 import javafx.application.Platform;
 
@@ -21,7 +22,9 @@ public class Fant extends Agent {
     private String idSource;            // Agente dispositivo que criou o fant
     private String idTarget;           // Id da celula de destino
     private double pheromone;           //valor do feromonio calculado pela Fant
-
+    
+    private List<String> cellVisitadas;
+    
     @Override
     protected void setup() {
 
@@ -32,6 +35,8 @@ public class Fant extends Agent {
         this.idTarget = (String) getArguments()[2];
         this.cellNext = (RectangleCell) getArguments()[3];
         this.cellAnterior = (RectangleCell) getArguments()[4];
+        this.cellVisitadas = new ArrayList<>();
+        this.cellVisitadas.addAll((List<String>) getArguments()[5]);
         cellFant.setAgente(this);
 
         //faz o posicionamento gráfico do agente
@@ -137,6 +142,13 @@ public class Fant extends Agent {
      */
     public RectangleCell getCellAnterior() {
         return cellAnterior;
+    }
+
+    /**
+     * @return the cellVisitadas
+     */
+    public List<String> getCellVisitadas() {
+        return cellVisitadas;
     }
 
 }
