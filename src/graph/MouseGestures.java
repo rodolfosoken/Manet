@@ -21,7 +21,7 @@ public class MouseGestures {
         this.graph = graph;
     }
 
-    public void makeDraggable( final Node node) {
+    public synchronized void makeDraggable( final Node node) {
         node.setOnMousePressed(onMousePressedEventHandler);
         node.setOnMouseDragged(onMouseDraggedEventHandler);
         node.setOnMouseReleased(onMouseReleasedEventHandler);

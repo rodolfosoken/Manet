@@ -17,10 +17,11 @@ public class PassarInfos extends SimpleBehaviour {
 
     private Fant agente;
     private boolean fim = false;
-    private int nExecucoes = 0;
+    private int nExecucoes;
 
     public PassarInfos(Agent a) {
         super(a);
+        nExecucoes = 0;
         this.agente = (Fant) a;
         System.out.println(myAgent.getLocalName()+": "+
                 "Infos de " + a.getLocalName()

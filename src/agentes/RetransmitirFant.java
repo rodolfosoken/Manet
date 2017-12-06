@@ -6,9 +6,9 @@
 package agentes;
 
 import graph.Cell;
+import jade.content.onto.basic.Done;
 import jade.core.Agent;
 import jade.core.behaviours.WakerBehaviour;
-import java.util.Random;
 import manetfxml.FXMLDocumentController;
 
 /**
@@ -29,17 +29,13 @@ public class RetransmitirFant extends WakerBehaviour {
 
     @Override
     public void onWake() {
-
+        
+        int passos = 1;
         //ao retransmitir a fant é preciso considerar o tempo de atualizacao da view
         for (Cell children : ((AgenteDispositivo) myAgent).getCell().getCellChildren()) {
             try {
-                long LOWER_RANGE = 70; //assign lower range value
-                long UPPER_RANGE = 200; //assign upper range value
-                Random random = new Random();
-
-                long randomValue = LOWER_RANGE
-                        + (long) (random.nextDouble() * (UPPER_RANGE - LOWER_RANGE));
-                Thread.sleep(randomValue);
+                long tempoMinimo = 70;
+                Thread.sleep(tempoMinimo*(++passos));
             } catch (Exception e) {
                 System.out.println(myAgent.getLocalName()+": "+"Erro: " + e);
             }
@@ -55,12 +51,13 @@ public class RetransmitirFant extends WakerBehaviour {
             args[3] = children;
             //agente deste comportamento
             args[4] = ((AgenteDispositivo) myAgent).getCell();
-            FXMLDocumentController.incrQtdFant();
-            FXMLDocumentController.addAgent("F" + FXMLDocumentController.getQtdFant(), Fant.class.getName(), args);
+            FXMLDocumentController.addAgentFant(args);
         }
         System.out.println(myAgent.getLocalName()+": "+
                 fant.getLocalName() + " Fant Retransmitida e sendo eliminada em " + myAgent.getLocalName());
         fant.doDelete();
     }
+    
+    
 
 }

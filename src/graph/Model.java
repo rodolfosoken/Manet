@@ -72,7 +72,7 @@ public class Model {
     }
 
 
-    public void addCell( Cell cell) {
+    public synchronized void addCell( Cell cell) {
         if(!addedCells.contains(cell) && !allCells.contains(cell)){
             addedCells.add(cell);
 
@@ -106,7 +106,7 @@ public class Model {
         
     }
     
-    public void removeCell(Cell cell){
+    public synchronized void removeCell(Cell cell){
         for(Cell cellProx : allCells){
             removeEdge(cell.getCellId(),cellProx.getCellId());
             removeEdge(cellProx.getCellId(),cell.getCellId());     
@@ -114,7 +114,7 @@ public class Model {
         getRemovedCells().add(cell);
     }
     
-    public void removeTriangularCell(Cell cell){
+    public synchronized void removeTriangularCell(Cell cell){
         getRemovedCells().add(cell);        
     }
     
@@ -122,7 +122,7 @@ public class Model {
      * Attach all cells which don't have a parent to graphParent 
      * @param cellList
      */
-    public void attachOrphansToGraphParent( List<Cell> cellList) {
+    public synchronized void attachOrphansToGraphParent( List<Cell> cellList) {
 
         for( Cell cell: cellList) {
             if( cell.getCellParents().size() == 0) {
@@ -136,14 +136,14 @@ public class Model {
      * Remove the graphParent reference if it is set
      * @param cellList
      */
-    public void disconnectFromGraphParent( List<Cell> cellList) {
+    public synchronized void disconnectFromGraphParent( List<Cell> cellList) {
 
         for( Cell cell: cellList) {
             graphParent.removeCellChild( cell);
         }
     }
 
-    public void merge() {
+    public synchronized void merge() {
 
         // cells
         allCells.addAll( addedCells);

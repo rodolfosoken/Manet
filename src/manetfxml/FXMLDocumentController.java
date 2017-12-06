@@ -6,6 +6,7 @@
 package manetfxml;
 
 import agentes.AgenteDispositivo;
+import agentes.Fant;
 import graph.Graph;
 import jade.core.Profile;
 import jade.core.ProfileImpl;
@@ -120,8 +121,17 @@ public class FXMLDocumentController implements Initializable {
             //agentController = cc.createNewAgent(agent, classe, args);
             agentController = containerController.createNewAgent(agent, classe, args);
             agentController.start();
-            if(isAdicionandoFant)
-                isAdicionandoFant = !isAdicionandoFant;
+        } catch (StaleProxyException s) {
+            s.printStackTrace();
+        }
+    }
+    
+    
+    public synchronized static void addAgentFant(Object[] args) {
+        try {
+            //agentController = cc.createNewAgent(agent, classe, args);
+            agentController = containerController.createNewAgent("F" + ++qtdFant, Fant.class.getName(),args);
+            agentController.start();
         } catch (StaleProxyException s) {
             s.printStackTrace();
         }
@@ -137,17 +147,6 @@ public class FXMLDocumentController implements Initializable {
         }
     };
     
-   
-    public static void incrQtdFant() {
-        isAdicionandoFant = true;
-        qtdFant++;
-    }
 
-    /**
-     * @return the qtdFant
-     */
-    public static int getQtdFant() {
-        return qtdFant;
-    }
 
 }

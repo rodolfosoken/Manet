@@ -19,7 +19,7 @@ public class Fant extends Agent {
     private String idSource;            // Agente dispositivo que criou o fant
     private String idTarget ;           // Id da celula de destino
     private double pheromone;           //valor do feromonio calculado pela Fant
-    
+        
     @Override
     protected void setup(){
         
@@ -48,7 +48,7 @@ public class Fant extends Agent {
     }
     
             
-    public void updateView(){
+    public synchronized void updateView(){
          //atualiza a view na thread principal
         Platform.runLater(new Runnable() {
             @Override

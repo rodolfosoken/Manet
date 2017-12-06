@@ -44,7 +44,7 @@ public class AgenteDispositivo extends Agent {
         
     }
     
-    public boolean recebeFant(Fant fant) {        
+    public synchronized boolean recebeFant(Fant fant) {        
         if(!isProcessandoFant){
             isProcessandoFant = true;
             this.fantRecebida = fant;
@@ -56,17 +56,17 @@ public class AgenteDispositivo extends Agent {
         return false;
     }
     
-    public void registraFant(List<String> key, double pheromone) {
+    public synchronized void registraFant(List<String> key, double pheromone) {
         this.getTabela().put(key, new Registro(
                 fantRecebida.getIdSource(), fantRecebida.getCellAnterior().getCellId(), pheromone));
     }
     
-    public void registraFant(List<String> key) {
+    public synchronized void registraFant(List<String> key) {
         this.getTabela().put(key, new Registro(key.get(0), key.get(1), 0));
     }
     
     @Override
-    public void doWake() {
+    public synchronized void doWake() {
         if (isRetransmitir) {
             addBehaviour(new RetransmitirFant(this, fantRecebida));
             isRetransmitir = false;
@@ -77,7 +77,7 @@ public class AgenteDispositivo extends Agent {
         
     }
     
-    public void updateView() {
+    public synchronized void updateView() {
         //atualiza a view na thread principal
         Platform.runLater(new Runnable() {
             @Override
@@ -88,7 +88,7 @@ public class AgenteDispositivo extends Agent {
     }
     
     @Override
-    protected void takeDown() {
+    protected synchronized void takeDown() {
         getGraph().getModel().removeCell(this.getCell());
         updateView();
         super.takeDown(); //To change body of generated methods, choose Tools | Templates.

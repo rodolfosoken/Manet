@@ -84,7 +84,7 @@ public class Graph {
         }
     }
     
-    public void updateFant(){
+    public synchronized void updateFant(){
         getCellLayer().getChildren().addAll(model.getAddedCells());
 
         // remove components from graph pane
@@ -109,7 +109,7 @@ public class Graph {
         
     }
 
-    public void update() {
+    public synchronized void update() {
        
         getCellLayer().getChildren().addAll(model.getAddedEdges());
         getCellLayer().getChildren().addAll(model.getAddedCells());
