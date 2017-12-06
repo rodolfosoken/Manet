@@ -51,7 +51,7 @@ public class Model {
         addedEdges.clear();
     }
 
-    public List<Cell> getAddedCells() {
+    public synchronized List<Cell> getAddedCells() {
         return addedCells;
     }
 

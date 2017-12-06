@@ -21,7 +21,7 @@ public class RetransmitirFant extends WakerBehaviour {
     private Fant fant;
 
     public RetransmitirFant(Agent a, Fant fant) {
-        super(a, 2000);
+        super(a, 1500);
         this.fant = fant;
         System.out.println(myAgent.getLocalName()+": "+
                 "Retransmitindo " + fant.getLocalName());
@@ -30,12 +30,12 @@ public class RetransmitirFant extends WakerBehaviour {
     @Override
     public void onWake() {
         
-        int passos = 1;
+        int passos = 0;
         //ao retransmitir a fant é preciso considerar o tempo de atualizacao da view
         for (Cell children : ((AgenteDispositivo) myAgent).getCell().getCellChildren()) {
             try {
-                long tempoMinimo = 70;
-                Thread.sleep(tempoMinimo*(++passos));
+                long tempoMinimo = 50;
+                Thread.sleep(tempoMinimo*passos++);
             } catch (Exception e) {
                 System.out.println(myAgent.getLocalName()+": "+"Erro: " + e);
             }
@@ -52,6 +52,12 @@ public class RetransmitirFant extends WakerBehaviour {
             //agente deste comportamento
             args[4] = ((AgenteDispositivo) myAgent).getCell();
             FXMLDocumentController.addAgentFant(args);
+            
+            try {
+                Thread.sleep(100);
+            } catch (Exception e) {
+                System.out.println(myAgent.getLocalName()+": "+"Erro: " + e);
+            }
         }
         System.out.println(myAgent.getLocalName()+": "+
                 fant.getLocalName() + " Fant Retransmitida e sendo eliminada em " + myAgent.getLocalName());

@@ -26,7 +26,6 @@ public class RandomLayout extends Layout {
     }
 
     public void execute() {
-
         List<Cell> cells = graph.getModel().getAllCells();
 
         for (Cell cell : cells) {

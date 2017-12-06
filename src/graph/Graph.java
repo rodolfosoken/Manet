@@ -90,8 +90,9 @@ public class Graph {
         // remove components from graph pane
         getCellLayer().getChildren().removeAll(model.getRemovedCells());
 
+        List <Cell> lista = model.getAddedCells();
         // enable dragging of cells
-        for (Cell cell : model.getAddedCells()) {
+        for (Cell cell : lista) {
             mouseGestures.makeDraggable(cell);
             cell.relocate(cell.getPosX(), cell.getPosY());
         }
