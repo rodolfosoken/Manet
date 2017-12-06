@@ -53,12 +53,7 @@ public class RetransmitirFant extends WakerBehaviour {
             //lista com celulas já visitadas pela fant
             args[5] = fant.getCellVisitadas();
             FXMLDocumentController.addAgentFant(args);
-            
-            try {
-                Thread.sleep(20);
-            } catch (Exception e) {
-                System.out.println(myAgent.getLocalName()+": "+"Erro: " + e);
-            }
+                       
         }
         System.out.println(myAgent.getLocalName()+": "+
                 fant.getLocalName() + " Fant Retransmitida e sendo eliminada em " + myAgent.getLocalName());

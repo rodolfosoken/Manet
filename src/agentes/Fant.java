@@ -22,9 +22,9 @@ public class Fant extends Agent {
     private String idSource;            // Agente dispositivo que criou o fant
     private String idTarget;           // Id da celula de destino
     private double pheromone;           //valor do feromonio calculado pela Fant
-    
+
     private List<String> cellVisitadas;
-    
+
     @Override
     protected void setup() {
 
@@ -46,6 +46,11 @@ public class Fant extends Agent {
             cellFant.setPosY(cellNext.getPosY());
         }
 
+        try {
+            Thread.sleep(20);
+        } catch (Exception e) {
+            System.out.println("Erro: " + e);
+        }
         //adiciona a celula ao modelo grafico
         graph.getModel().addCell(cellFant);
         updateView();
@@ -66,7 +71,7 @@ public class Fant extends Agent {
 
                     long randomValue = LOWER_RANGE
                             + (long) (random.nextDouble() * (UPPER_RANGE - LOWER_RANGE));
-                    
+
                     Thread.sleep(randomValue);
                 } catch (Exception e) {
                     System.out.println("Erro: " + e);

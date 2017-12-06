@@ -7,6 +7,7 @@ package agentes;
 
 import jade.core.Agent;
 import jade.core.behaviours.OneShotBehaviour;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -14,6 +15,7 @@ import javafx.event.EventHandler;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -22,6 +24,8 @@ import javafx.scene.shape.Polygon;
 public class RecebeFant extends OneShotBehaviour {
 
     AgenteDispositivo agente;
+
+    List<String> resultado;
 
     public RecebeFant(Agent dispositivo) {
         super(dispositivo);
@@ -48,15 +52,14 @@ public class RecebeFant extends OneShotBehaviour {
             //verificar primeiramente se é o destino
             if (!agente.getTabela().containsKey(key) && agente.getLocalName().equals(fant.getIdTarget())) {
                 //======= DISPOSITIVO ENCONTRADO ============                
-                fant.getCellVisitadas().add(agente.getLocalName());
                 agente.registraFant(key);
+                resultado = new ArrayList<>(agente.getFantRecebida().getCellVisitadas());
+                resultado.add(agente.getLocalName());
                 ((Polygon) fant.getCellFant().getView()).setFill(Color.CHARTREUSE);
                 fant.getCellFant().setOnMouseClicked(onMouseDoubleClickHandler);
                 agente.updateView();
-                
-                System.out.println(myAgent.getLocalName() + ": " + "DISPOSITIVO ENCONTRADO!");
-                System.out.println(myAgent.getLocalName() + ": CAMINHO PERCORRIDO ===> "
-                        + fant.getCellVisitadas());
+
+               showMessage();
 
             } else if (!agente.getTabela().containsKey(key)) {
                 //==========RETRANSMITIR FANT==========
@@ -84,15 +87,26 @@ public class RecebeFant extends OneShotBehaviour {
                     + "FANT NULA!!");
         }
     }
-    
-    
+
+    private void showMessage() {
+        System.out.println(myAgent.getLocalName() + ": CAMINHO PERCORRIDO ===> "
+                + resultado);
+
+        Thread t = new Thread(new Runnable() {
+            public void run() {
+                JOptionPane.showMessageDialog(null, "CAMINHO PERCORRIDO " + resultado);
+
+            }
+        });
+        t.start();
+
+    }
+
     EventHandler<MouseEvent> onMouseDoubleClickHandler = new EventHandler<MouseEvent>() {
         @Override
         public void handle(MouseEvent event) {
-                System.out.println(myAgent.getLocalName() + ": CAMINHO PERCORRIDO ===> "
-                        + agente.getFantRecebida().getCellVisitadas());
-            
+            showMessage();
         }
     };
-    
+
 }
