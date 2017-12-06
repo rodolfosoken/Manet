@@ -6,7 +6,6 @@
 package graph;
 
 import java.util.List;
-import java.util.Random;
 import javafx.scene.Group;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.Pane;
@@ -24,7 +23,7 @@ public class Graph {
 
     private Cell cellSelected;
 
-    private static int qtdFant;
+
 
     /**
      * the pane wrapper is necessary or else the scrollpane would always align
@@ -50,8 +49,7 @@ public class Graph {
 
         scrollPane.setFitToWidth(true);
         scrollPane.setFitToHeight(true);
-        qtdFant = 0;
-
+      
     }
 
     public ScrollPane getScrollPane() {
@@ -170,15 +168,6 @@ public class Graph {
         this.cellSelected = cellSelected;
     }
 
-    public static void incrQtdFant() {
-        qtdFant++;
-    }
 
-    /**
-     * @return the qtdFant
-     */
-    public static int getQtdFant() {
-        return qtdFant;
-    }
 
 }

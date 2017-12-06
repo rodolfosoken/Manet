@@ -36,7 +36,11 @@ public class FXMLDocumentController implements Initializable {
     
     private static ContainerController containerController;
     private static AgentController agentController;
-    private static int qtdDispositivo = 0;
+    private static int qtdDispositivo;
+    
+    private static int qtdFant;
+    private static boolean isAdicionandoFant;
+    
     
     private static Graph graph;
     private Layout layout;
@@ -86,6 +90,11 @@ public class FXMLDocumentController implements Initializable {
         args = new Object[3];
         args[0] = graph;
         args[1] = containerController;
+        
+        qtdDispositivo = 0;
+        qtdFant = 0;
+        isAdicionandoFant=false;
+
     }
     
     public static void close(){
@@ -111,7 +120,8 @@ public class FXMLDocumentController implements Initializable {
             //agentController = cc.createNewAgent(agent, classe, args);
             agentController = containerController.createNewAgent(agent, classe, args);
             agentController.start();
-            
+            if(isAdicionandoFant)
+                isAdicionandoFant = !isAdicionandoFant;
         } catch (StaleProxyException s) {
             s.printStackTrace();
         }
@@ -128,5 +138,16 @@ public class FXMLDocumentController implements Initializable {
     };
     
    
+    public static void incrQtdFant() {
+        isAdicionandoFant = true;
+        qtdFant++;
+    }
+
+    /**
+     * @return the qtdFant
+     */
+    public static int getQtdFant() {
+        return qtdFant;
+    }
 
 }

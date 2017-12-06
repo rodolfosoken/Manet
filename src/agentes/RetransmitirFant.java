@@ -21,27 +21,28 @@ public class RetransmitirFant extends WakerBehaviour {
     private Fant fant;
 
     public RetransmitirFant(Agent a, Fant fant) {
-        super(a, 1000);
+        super(a, 2000);
         this.fant = fant;
-        System.out.println("Retransmitindo " + fant.getLocalName());
+        System.out.println(myAgent.getLocalName()+": "+
+                "Retransmitindo " + fant.getLocalName());
     }
 
     @Override
     public void onWake() {
-        
+
         //ao retransmitir a fant é preciso considerar o tempo de atualizacao da view
         for (Cell children : ((AgenteDispositivo) myAgent).getCell().getCellChildren()) {
             try {
-            long LOWER_RANGE = 50; //assign lower range value
-            long UPPER_RANGE = 200; //assign upper range value
-            Random random = new Random();
+                long LOWER_RANGE = 70; //assign lower range value
+                long UPPER_RANGE = 200; //assign upper range value
+                Random random = new Random();
 
-            long randomValue = LOWER_RANGE
-                    + (long) (random.nextDouble() * (UPPER_RANGE - LOWER_RANGE));
-            Thread.sleep(randomValue);
-        } catch (Exception e) {
-            System.out.println("Erro: " + e);
-        }
+                long randomValue = LOWER_RANGE
+                        + (long) (random.nextDouble() * (UPPER_RANGE - LOWER_RANGE));
+                Thread.sleep(randomValue);
+            } catch (Exception e) {
+                System.out.println(myAgent.getLocalName()+": "+"Erro: " + e);
+            }
             //System.out.println("Coord: "+children.getPosX()+" , "+children.getPosY());
             args = new Object[5];
             //grafo
@@ -54,11 +55,12 @@ public class RetransmitirFant extends WakerBehaviour {
             args[3] = children;
             //agente deste comportamento
             args[4] = ((AgenteDispositivo) myAgent).getCell();
-            graph.Graph.incrQtdFant();
-            FXMLDocumentController.addAgent( "F" + graph.Graph.getQtdFant(), Fant.class.getName(), args);
+            FXMLDocumentController.incrQtdFant();
+            FXMLDocumentController.addAgent("F" + FXMLDocumentController.getQtdFant(), Fant.class.getName(), args);
         }
+        System.out.println(myAgent.getLocalName()+": "+
+                fant.getLocalName() + " Fant Retransmitida e sendo eliminada em " + myAgent.getLocalName());
         fant.doDelete();
     }
-    
-    
+
 }

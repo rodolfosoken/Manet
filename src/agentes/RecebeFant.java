@@ -6,7 +6,7 @@
 package agentes;
 
 import jade.core.Agent;
-import jade.core.behaviours.WakerBehaviour;
+import jade.core.behaviours.OneShotBehaviour;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -17,22 +17,29 @@ import javafx.scene.shape.Polygon;
  *
  * @author Rodolfo
  */
-public class RecebeFant extends WakerBehaviour {
+public class RecebeFant extends OneShotBehaviour {
 
     AgenteDispositivo agente;
 
     public RecebeFant(Agent dispositivo) {
-        super(dispositivo, 200);
+        super(dispositivo);
         agente = (AgenteDispositivo) dispositivo;
-        System.out.println("Fant Recebida em " + dispositivo.getLocalName());
+        if(agente.getFantRecebida() != null)
+            System.out.println(myAgent.getLocalName()+": "+
+                    agente.getFantRecebida().getLocalName()+
+                    " Recebida em setup de: " +agente.getLocalName());
     }
 
     @Override
-    public void onWake() {
+    public void action() {
 
         Fant fant = agente.getFantRecebida();
+        System.out.println(myAgent.getLocalName()+": "+
+                "Action recebe fant em "+ myAgent.getLocalName());
 
         if (fant != null) {
+            System.out.println(myAgent.getLocalName()+": "+
+                    fant.getLocalName()+" Recebida em onWake() de " + myAgent.getLocalName());
             List<String> key = Collections.unmodifiableList(Arrays.asList(fant.getIdSource(), fant.getIdTarget()));
 
             if (!agente.getTabela().containsKey(key) && agente.getLocalName().equals(fant.getIdTarget())) {
@@ -54,11 +61,16 @@ public class RecebeFant extends WakerBehaviour {
             } else {
             //caso haja registro na tabela, entao descartar a fant
             
-            System.out.println("Removendo: "
+            System.out.println(myAgent.getLocalName()+": "+
+                    "REMOVENDO: "
                         + fant.getLocalName() + " em " + agente.getLocalName());
                 fant.doDelete();
             }
-
+            
+            agente.setIsProcessandoFant(false);
+        }else{
+            System.out.println(myAgent.getLocalName()+": "+
+                    "FANT NULA!!");
         }
     }
 }

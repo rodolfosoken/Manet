@@ -24,6 +24,7 @@ public class AgenteDispositivo extends Agent {
     private Map<List<String>, Registro> tabela;
     
     private boolean isRetransmitir = false;
+    private boolean isProcessandoFant;
     private Fant fantRecebida;
     
     @Override
@@ -39,12 +40,20 @@ public class AgenteDispositivo extends Agent {
         cell.setPosX(random.nextDouble()*500);
         cell.setPosY(random.nextDouble()*500);
         
+        isProcessandoFant = false;
+        
     }
     
-    public void recebeFant(Fant fant) {        
-        this.fantRecebida = fant;
-        addBehaviour(new RecebeFant(this));
-        
+    public boolean recebeFant(Fant fant) {        
+        if(!isProcessandoFant){
+            isProcessandoFant = true;
+            this.fantRecebida = fant;
+            addBehaviour(new RecebeFant(this));
+            return true;
+        }
+        System.out.println(this.getLocalName()+": "+"Ainda processando "+
+                fantRecebida.getLocalName() + " em "+ this.getLocalName());
+        return false;
     }
     
     public void registraFant(List<String> key, double pheromone) {
@@ -151,6 +160,20 @@ public class AgenteDispositivo extends Agent {
      */
     public void setFantRecebida(Fant fantRecebida) {
         this.fantRecebida = fantRecebida;
+    }
+
+    /**
+     * @return the isProcessandoFant
+     */
+    public boolean isIsProcessandoFant() {
+        return isProcessandoFant;
+    }
+
+    /**
+     * @param isProcessandoFant the isProcessandoFant to set
+     */
+    public void setIsProcessandoFant(boolean isProcessandoFant) {
+        this.isProcessandoFant = isProcessandoFant;
     }
     
 }

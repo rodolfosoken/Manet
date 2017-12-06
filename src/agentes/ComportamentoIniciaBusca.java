@@ -29,7 +29,8 @@ public class ComportamentoIniciaBusca extends OneShotBehaviour{
         this.sourceID = sourceID;
         this.targetID = targetID;
         this.agente = (AgenteDispositivo)a;
-        System.out.println("Inciando Busca em "+a.getLocalName());
+        System.out.println(myAgent.getLocalName()+": "+
+                "Inciando Busca em "+a.getLocalName());
         
         //registrar a fant criada na tabela para rejeitar duplicatas
          List<String> key = Collections.unmodifiableList(Arrays.asList(sourceID,targetID));
@@ -52,8 +53,9 @@ public class ComportamentoIniciaBusca extends OneShotBehaviour{
             args[3] = children;
             //agente deste comportamento
             args[4] = ((AgenteDispositivo)myAgent).getCell();
-            graph.Graph.incrQtdFant();
-            FXMLDocumentController.addAgent("F"+graph.Graph.getQtdFant(), Fant.class.getName(), args );
+            FXMLDocumentController.incrQtdFant();
+            FXMLDocumentController.addAgent("F"+
+                    FXMLDocumentController.getQtdFant(), Fant.class.getName(), args );
             
         }
         
